@@ -1,7 +1,8 @@
 #ifndef __POLINOMIO
 #define __POLINOMIO
 
-#include<iostream>
+#include <iostream>
+#include <cstdlib>
 
 using namespace std;
 
@@ -94,6 +95,9 @@ class Polinomio {
 		// retorna a derivada do polinômio
 		Polinomio derivada() const;
 
+		// retorna a integral do polinômio
+		Polinomio Polinomio::integral() const;
+
 		// avalia.
 		// Dado um número 'a', calcula P(a)
 		// sugestão https://en.wikipedia.org/wiki/Horner%27s_method
@@ -107,6 +111,8 @@ class Polinomio {
 		double * resolve(int &) const;
 
 	private:
+		double *poli;
+		int termos;
 		// Você deve editar aqui para a sua representação de dados
 };
 
