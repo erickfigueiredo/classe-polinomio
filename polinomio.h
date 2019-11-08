@@ -96,11 +96,9 @@ class Polinomio {
 		Polinomio derivada() const;
 
 		// retorna a integral do polinômio
-		Polinomio Polinomio::integral() const;
+		Polinomio integral() const;
 
-		// avalia.
 		// Dado um número 'a', calcula P(a)
-		// sugestão https://en.wikipedia.org/wiki/Horner%27s_method
 		double avalia(double) const;
 
 		// resolve P(x) = 0. Encontra as raízes reais do polinômio
@@ -113,7 +111,7 @@ class Polinomio {
 	private:
 		double *poli;
 		int termos;
-		// Você deve editar aqui para a sua representação de dados
+		double avaliaPoli(double *, int, int, double) const;
 };
 
 #endif

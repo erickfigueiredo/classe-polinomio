@@ -108,7 +108,8 @@ Polinomio &Polinomio::operator+=(const double &num){
 
 
 
-/*      Calculo      */
+/*      Operações (sem operadores)       */
+
 
 //Derivada
 Polinomio Polinomio::derivada() const
@@ -138,4 +139,19 @@ Polinomio Polinomio::integral() const
     }
 
     return dx;
+}
+
+double Polinomio::avalia(double a) const{
+    return avaliaPoli(poli, termos, 0, a);
+}
+
+//Avaliação de polinômio pelo método de Horner
+double Polinomio::avaliaPoli(double *poli, int termos, int aux, double a) const
+{   
+    //Verificamos se o calculo já se encontra no coeficiente multiplicado pelo segundo maior grau
+    if(aux == termos-2){
+        return poli[termos-1]*a + poli[termos-2];
+    }
+    //Mais externo para o mais interno
+    return avaliaPoli(poli, termos, aux+1, a) * a + poli[aux];
 }
