@@ -83,7 +83,8 @@ Polinomio Polinomio::operator+(const double &num) const
 
     resultado.termos = this->termos;
 
-    for (int i = 0; i < this->termos; i++){
+    for (int i = 0; i < this->termos; i++)
+    {
         resultado.poli[i] = this->poli[i];
     }
 
@@ -92,24 +93,37 @@ Polinomio Polinomio::operator+(const double &num) const
     return resultado;
 }
 
-//Atribuicao de um polinomio em outro
-Polinomio &Polinomio::operator+=(const Polinomio & p){
+//Atribuição de um polinomio em outro
+Polinomio &Polinomio::operator+=(const Polinomio &p)
+{
 
     /*FALTA O DESENVOLVIMENTO*/
 
     return *this;
 }
 
-//Atribuicao de um valor ao termo independente de um polinomio
-Polinomio &Polinomio::operator+=(const double &num){
+//Atribuição de um valor ao termo independente de um polinomio
+Polinomio &Polinomio::operator+=(const double &num)
+{
     this->poli[0] += num;
     return *this;
 }
 
-
+//Comparação
+bool Polinomio::operator==(const Polinomio &p) const
+{
+    if (this == &p)
+        return true;
+    if (p.termos == this->termos)
+    {
+        for (int i = 0; i < this->termos; i++)
+            if (this->poli[i] != p.poli[i])
+                return false;
+    }
+    return true;
+}
 
 /*      Operações (sem operadores)       */
-
 
 //Derivada
 Polinomio Polinomio::derivada() const
@@ -120,7 +134,6 @@ Polinomio Polinomio::derivada() const
 
     for (int i = 1; i < this->termos; i++)
         d.poli[i - 1] = i * this->poli[i];
-
     return d;
 }
 
@@ -135,23 +148,23 @@ Polinomio Polinomio::integral() const
     {
         if (i == 0)
             dx.poli[1] = this->poli[0];
-        dx.poli[i + 1] = (this->poli[i])/(i + 1);
+        dx.poli[i + 1] = (this->poli[i]) / (i + 1);
     }
-
     return dx;
 }
 
-double Polinomio::avalia(double a) const{
+double Polinomio::avalia(double a) const
+{
     return avaliaPoli(poli, termos, 0, a);
 }
 
 //Avaliação de polinômio pelo método de Horner
 double Polinomio::avaliaPoli(double *poli, int termos, int aux, double a) const
-{   
+{
     //Verificamos se o calculo já se encontra no coeficiente multiplicado pelo segundo maior grau
-    if(aux == termos-2){
-        return poli[termos-1]*a + poli[termos-2];
-    }
+    if (aux == termos - 2)
+        return poli[termos - 1] * a + poli[termos - 2];
+    
     //Mais externo para o mais interno
-    return avaliaPoli(poli, termos, aux+1, a) * a + poli[aux];
+    return avaliaPoli(poli, termos, aux + 1, a) * a + poli[aux];
 }

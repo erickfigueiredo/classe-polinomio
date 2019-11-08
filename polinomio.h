@@ -8,8 +8,6 @@ using namespace std;
 
 class Polinomio {
 	public:
-		// métodos a serem implementados
-	
 		/* construtores e destrutores */
 
 		// construtor padrão. Deve representar o número 0
