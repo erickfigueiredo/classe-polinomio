@@ -123,6 +123,20 @@ bool Polinomio::operator==(const Polinomio &p) const
     return true;
 }
 
+//Incremento de 1
+Polinomio Polinomio::operator++(){
+    int ultimo = (sizeof(this->poli))-1;
+    this->poli[ultimo]++;
+    return *this;
+}
+
+//Incremento de uma determinada quantidade
+Polinomio Polinomio::operator++(int num){
+    int ultimo = (sizeof(this->poli))-1;
+    this->poli[ultimo]+num;
+    return *this;
+}
+
 /*      Operações (sem operadores)       */
 
 //Derivada
@@ -168,3 +182,4 @@ double Polinomio::avaliaPoli(double *poli, int termos, int aux, double a) const
     //Mais externo para o mais interno
     return avaliaPoli(poli, termos, aux + 1, a) * a + poli[aux];
 }
+
