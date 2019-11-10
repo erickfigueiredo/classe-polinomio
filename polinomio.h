@@ -73,8 +73,9 @@ class Polinomio {
 		double operator[](int) const;
 
 		// incrementos (adicionar 1) ao termo constante
-		Polinomio operator++();
-		Polinomio operator++(int);
+		
+		Polinomio operator++(); // feito
+		Polinomio operator++(int); //feito
 
 		/* Comparação */
 		
