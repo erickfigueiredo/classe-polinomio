@@ -1,5 +1,6 @@
 #include "polinomio.h"
 
+//⁰¹²³⁴⁵⁶⁷⁸⁹⁰ 
 /*      Construtores      */
 Polinomio::Polinomio()
 {
@@ -57,6 +58,8 @@ Polinomio Polinomio::operator+(const Polinomio &p) const
     if (this->termos >= p.termos)
     {
         resultado.termos = this->termos;
+        free(resultado.poli);
+        resultado.poli = (double *)malloc(resultado.termos * sizeof(double));
         for (int i = 0; i < resultado.termos; i++)
             resultado.poli[i] = this->poli[i];
 
@@ -66,6 +69,8 @@ Polinomio Polinomio::operator+(const Polinomio &p) const
     else
     {
         resultado.termos = p.termos;
+        free(resultado.poli);
+        resultado.poli = (double *)malloc(resultado.termos * sizeof(double));
         for (int i = 0; i < resultado.termos; i++)
             resultado.poli[i] = p.poli[i];
 
@@ -82,6 +87,8 @@ Polinomio Polinomio::operator+(const double &num) const
     Polinomio resultado;
 
     resultado.termos = this->termos;
+    free(resultado.poli);
+    resultado.poli = (double *)malloc(resultado.termos * sizeof(double));
 
     for (int i = 0; i < this->termos; i++)
     {
@@ -96,6 +103,28 @@ Polinomio Polinomio::operator+(const double &num) const
 //Atribuição de um polinomio em outro
 Polinomio &Polinomio::operator+=(const Polinomio &p)
 {
+    if (this->termos >= p.termos)
+    {
+        for (int i = 0; i < p.termos; i++)
+            this->poli[i] += p.poli[i];
+    }
+    else
+    {
+
+        Polinomio aux(*this);
+
+        free(this->poli);
+        this->poli = (double *)malloc(p.termos * sizeof(double));
+        this->termos = p.termos;
+
+        for (int i = 0; i < this->termos; i++)
+        {
+            if (i < aux.termos)
+                this->poli[i] = p.poli[i] + aux.poli[i];
+            else
+                this->poli[i] = p.poli[i];
+        }
+    }
 
     /*FALTA O DESENVOLVIMENTO*/
 
@@ -136,14 +165,18 @@ bool Polinomio::operator==(const Polinomio &p) const
 } */
 
 //Incremento de 1
-Polinomio Polinomio::operator++(){
-    this->poli[0]++;
+Polinomio Polinomio::operator++()
+{
+    poli[0] += 1;
     return *this;
 }
 
 //Incremento de uma determinada quantidade
-Polinomio Polinomio::operator++(int num){
-    this->poli[0] = poli[0]+num;
+Polinomio Polinomio::operator++(int)
+{
+    Polinomio resultado(*this);
+    resultado.poli[0] += 1;
+    return resultado;
 }
 
 /*      Operações (sem operadores)       */
@@ -153,6 +186,7 @@ Polinomio Polinomio::derivada() const
 {
     Polinomio d;
     d.termos = this->termos - 1;
+    free(d.poli);
     d.poli = (double *)malloc((d.termos) * sizeof(double));
 
     for (int i = 1; i < this->termos; i++)
@@ -165,6 +199,7 @@ Polinomio Polinomio::integral() const
 {
     Polinomio dx;
     dx.termos = this->termos + 1;
+    free(dx.poli);
     dx.poli = (double *)calloc(dx.termos, sizeof(double));
 
     for (int i = 0; i < this->termos; i++)
@@ -187,7 +222,7 @@ double Polinomio::avaliaPoli(double *poli, int termos, int aux, double a) const
     //Verificamos se o calculo já se encontra no coeficiente multiplicado pelo segundo maior grau
     if (aux == termos - 2)
         return poli[termos - 1] * a + poli[termos - 2];
-    
+
     //Mais externo para o mais interno
     return avaliaPoli(poli, termos, aux + 1, a) * a + poli[aux];
 }
