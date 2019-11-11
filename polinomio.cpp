@@ -92,7 +92,29 @@ Polinomio Polinomio::operator+(const double &num) const
 
     return resultado;
 }
-
+//operador de [], retorna o i-esimo coeficiente do polinomio
+double Polinomio ::operator[](int i) const
+{
+    if (i == 0)
+        return poli[0];
+    if (i < 0 || i > termos)
+        throw(posicaoInvalidaExcept());
+    return poli[i - 1];
+}
+double &Polinomio ::operator[](int i)
+{
+    if (i == 0)
+        return poli[0];
+    if (i < 0 || i > termos)
+        throw(posicaoInvalidaExcept());
+    return poli[i - 1];
+}
+//operador >>, le o polinomio do menor p/ maior grau
+istream &operator>>(istream &is, Polinomio &a)
+{
+    for (int i = 0; i < a.termos; i++)
+        is >> a.poli[i];
+}
 //Atribuição de um polinomio em outro
 Polinomio &Polinomio::operator+=(const Polinomio &p)
 {
@@ -136,14 +158,16 @@ bool Polinomio::operator==(const Polinomio &p) const
 } */
 
 //Incremento de 1
-Polinomio Polinomio::operator++(){
+Polinomio Polinomio::operator++()
+{
     this->poli[0]++;
     return *this;
 }
 
 //Incremento de uma determinada quantidade
-Polinomio Polinomio::operator++(int num){
-    this->poli[0] = poli[0]+num;
+Polinomio Polinomio::operator++(int num)
+{
+    this->poli[0] = poli[0] + num;
 }
 
 /*      Operações (sem operadores)       */
@@ -187,7 +211,7 @@ double Polinomio::avaliaPoli(double *poli, int termos, int aux, double a) const
     //Verificamos se o calculo já se encontra no coeficiente multiplicado pelo segundo maior grau
     if (aux == termos - 2)
         return poli[termos - 1] * a + poli[termos - 2];
-    
+
     //Mais externo para o mais interno
     return avaliaPoli(poli, termos, aux + 1, a) * a + poli[aux];
 }
