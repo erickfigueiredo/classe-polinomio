@@ -99,6 +99,23 @@ Polinomio Polinomio::operator+(const double &num) const
 
     return resultado;
 }
+//operador de [], retorna o i-esimo coeficiente do polinomio
+double Polinomio ::operator[](int i) const
+{
+    if (i == 0)
+        return poli[0];
+    if (i < 0 || i > termos)
+        throw(posicaoInvalidaExcept());
+    return poli[i - 1];
+}
+double &Polinomio ::operator[](int i)
+{
+    if (i == 0)
+        return poli[0];
+    if (i < 0 || i > termos)
+        throw(posicaoInvalidaExcept());
+    return poli[i - 1];
+}
 
 //Atribuição de um polinomio em outro
 Polinomio &Polinomio::operator+=(const Polinomio &p)

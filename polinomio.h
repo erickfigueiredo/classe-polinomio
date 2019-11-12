@@ -6,6 +6,8 @@
 
 using namespace std;
 
+class posicaoInvalidaExcept{
+};
 class Polinomio {
 	public:
 		/* construtores e destrutores */
@@ -71,6 +73,7 @@ class Polinomio {
 		// Deve lançar 'PosicaoInvalidaExcept' se houver tentativa de acessar um bit não existente
 		// Posição 0 indica o coeficiente do termo constante 
 		double operator[](int) const;
+		double & operator[](int );
 
 		// incrementos (adicionar 1) ao termo constante
 		
