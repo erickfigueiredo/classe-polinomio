@@ -13,45 +13,48 @@ class Polinomio {
 		/* construtores e destrutores */
 
 		// construtor padrão. Deve representar o número 0
-		Polinomio();
+		Polinomio();//--FEITO--
 
 		// Cria um Polinomio a partir de um número inteiro (positivo ou negativo)
-		Polinomio(const int);
+		Polinomio(const int);//--FEITO--
 
 		// Cria um Polinomio a partir de um vetor de coeficientes. Os coeficientes
 		// deverão ser os coeficientes do polinômio (Posição 0 será a_0, posição 1 será a_1, ...). 
 		// O primeiro parâmetro representa o grau do polinômio.
-		Polinomio(unsigned int n, double *a);
+		Polinomio(unsigned int n, double *a);//--FEITO--
 
 		// Construtor de cópia
-		Polinomio(const Polinomio &);
+		Polinomio(const Polinomio &);//--FEITO--
 
 		// destrutor
-		~Polinomio();
+		~Polinomio();//--FEITO--
 
 		/* Operadores */
 
 		// atribuição
-		Polinomio & operator=(const Polinomio &);
+		Polinomio & operator=(const Polinomio &);//--FEITO--
 
 		// soma
-		Polinomio operator+(const Polinomio &) const; // adiciona dois Polinômios
-		Polinomio operator+(const double &) const;       // adiciona um polinômio a um número
-		Polinomio & operator+=(const Polinomio &);
-		Polinomio & operator+=(const double &);
+		// adiciona dois Polinômios
+		Polinomio operator+(const Polinomio &) const;//--FEITO--
+		// adiciona um polinômio a um número
+		Polinomio operator+(const double &) const;//--FEITO--       
+		Polinomio & operator+=(const Polinomio &);//--FEITO--
+		Polinomio & operator+=(const double &);//--FEITO--
 		
 		// subtração (segue o mesmo padrão da adição)
-		Polinomio operator-(const Polinomio &) const;
-		Polinomio operator-(const double &) const;
-		Polinomio & operator-=(const Polinomio &);
-		Polinomio & operator-=(const double &);
+		Polinomio operator-(const Polinomio &) const;//--FEITO--
+		Polinomio operator-(const double &) const;//--FEITO--
+		Polinomio & operator-=(const Polinomio &);//--FEITO--
+		Polinomio & operator-=(const double &);//--FEITO--
 		
 		// multiplicação
 		// TODO: você também deve implementar a multiplicação por um número à esquerda
-		Polinomio operator*(const Polinomio &) const;
-		Polinomio operator*(const double &) const;
-		Polinomio & operator*=(const Polinomio &);
-		Polinomio & operator*=(const double &);
+		//Falta fazer isso aqui em cima
+		Polinomio operator*(const Polinomio &) const;//--FEITO--
+		Polinomio operator*(const double &) const;//--FEITO--
+		Polinomio & operator*=(const Polinomio &);//--FEITO--
+		Polinomio & operator*=(const double &);//--FEITO--
 		
 		// divisão por um polinômio de grau 1 da forma (x - a)
 		// deve lançar 'ArgumentoInvalidoExcept' se o denominador não for da forma especificada acima
@@ -72,36 +75,38 @@ class Polinomio {
 		// Retorna i-ésimo coeficiente
 		// Deve lançar 'PosicaoInvalidaExcept' se houver tentativa de acessar um bit não existente
 		// Posição 0 indica o coeficiente do termo constante 
-		double operator[](int) const;
-		double & operator[](int );
+		double operator[](int) const;//--FEITO--
+		double & operator[](int );//--FEITO--
 
 		// incrementos (adicionar 1) ao termo constante
 		
-		Polinomio operator++(); // feito
-		Polinomio operator++(int); //feito
+		Polinomio &operator++();//--FEITO--
+		Polinomio operator++(int);//--FEITO--
+		Polinomio &operator--();//--FEITO--
+		Polinomio operator--(int);//--FEITO--
 
 		/* Comparação */
 		
 		// igualdade
 		// Verificar se dois polinômios tem o mesmo grau e mesmos coeficientes
-		bool operator==(const Polinomio &) const;
+		bool operator==(const Polinomio &) const;//--FEITO--
 
 		/* Entrada Saída */
 		
 		// lê/imprime de streams de entrada e saída
-		friend istream& operator>>(istream &, Polinomio &);
-		friend ostream& operator<<(ostream &, const Polinomio &);
+		friend istream& operator>>(istream &, Polinomio &);//--FEITO--
+		friend ostream& operator<<(ostream &, const Polinomio &);//--FEITO--
 		
 		/* Operações (sem operadores) */
 
 		// retorna a derivada do polinômio
-		Polinomio derivada() const;
+		Polinomio derivada() const;//--FEITO--
 
 		// retorna a integral do polinômio
-		Polinomio integral() const;
+		Polinomio integral() const;//--FEITO--
 
 		// Dado um número 'a', calcula P(a)
-		double avalia(double) const;
+		double avalia(double) const;//--FEITO--
 
 		// resolve P(x) = 0. Encontra as raízes reais do polinômio
 		// o parâmetro inteiro é o número de raízes encontradas

@@ -29,7 +29,6 @@ ostream &operator<<(ostream &os, const Polinomio &escreve)
     return os;
 }
 
-//operador >>, le o polinomio do menor p/ maior grau
 istream &operator>>(istream &is, Polinomio &a)
 {
     cout << "Informe a quantidade de termos do polinômio: ";
