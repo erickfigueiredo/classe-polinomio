@@ -378,11 +378,10 @@ Polinomio Polinomio::operator%(const Polinomio &p) const
         for (int i = resultado.termos - 2; i >= 0; i--)
             resultado.poli[i] = (resultado.poli[i + 1] * raiz) + this->poli[i + 1];
 
-
         resto = (resultado.poli[0] * raiz) + this->poli[0];
         resultado.termos = 1;
         free(resultado.poli);
-        resultado.poli = (double*)malloc(sizeof(double));
+        resultado.poli = (double *)malloc(sizeof(double));
         resultado.poli[0] = resto;
         return resultado;
     }
@@ -392,7 +391,7 @@ Polinomio Polinomio::operator%(const Polinomio &p) const
     }
 }
 
-Polinomio & Polinomio::operator%=(const Polinomio &p)
+Polinomio &Polinomio::operator%=(const Polinomio &p)
 {
     try
     {
@@ -409,21 +408,18 @@ Polinomio & Polinomio::operator%=(const Polinomio &p)
         for (int i = resultado.termos - 2; i >= 0; i--)
             resultado.poli[i] = (resultado.poli[i + 1] * raiz) + this->poli[i + 1];
 
-
         resto = (resultado.poli[0] * raiz) + this->poli[0];
         this->termos = 1;
         free(this->poli);
-        this->poli = (double*)malloc(sizeof(double));
+        this->poli = (double *)malloc(sizeof(double));
         this->poli[0] = resto;
         return *this;
     }
-    catch (ArgumentoInvalidoExcept &e
+    catch (ArgumentoInvalidoExcept &e)
     {
         cout << "Divisao invalida!!\n";
     }
 }
-
-
 
 //------Incremento de 1
 Polinomio &Polinomio::operator++(int)
@@ -549,4 +545,37 @@ double Polinomio::avaliaPoli(double *poli, int termos, int aux, double a) const
 
     //Mais externo para o mais interno
     return avaliaPoli(poli, termos, aux + 1, a) * a + poli[aux];
+}
+//Metodo de Newton-Rhapson
+//x(n+1) = x(n) - f(x)/f'(x)
+//achar um intervalo onde f(x) troca de sinal(possivel raiz)
+//avaliar em um dos extremos, se for suficientemente bom
+//chamar briot-ruffini, diminuido o grau, e repetir ate o final
+double *Polinomio ::resolve(int &num) const
+{   
+    double *v;
+    //double *t = (double*)calloc(2,sizeof(double));
+    double menor;
+    double aux;
+    menor = this->avalia(0);
+    //cout << menor << endl;
+    for (int i = -100; i < 101; i++)
+    {
+        aux = this->avalia(i);
+        if (abs(0 - aux) <= abs(0 - menor))
+            menor = i;
+    }
+   // cout << menor << endl;
+    for (int i = 0; i < 1000; i++)
+    {
+        menor = menor - (this->avalia(menor) / (this->derivada()).avalia(menor));
+        if (this->avalia(menor) < 10e-6)
+        {   
+            cout << menor << endl;
+            cout << this->avalia(menor) << endl;
+            break;
+        }
+    }
+
+    return v;
 }

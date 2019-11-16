@@ -69,11 +69,12 @@ int main()
     cin >> b;
     //cout << "a: " << a;
 
-    cout << b / a;
+    //cout << b / a;
 
-    b -= a;
+    //b -= a;
     cout << b;
-
+    int aux = 1;
+    b.resolve(aux);
     //Polinomio e = a*b;
 
     //cout << "e: " << e;
