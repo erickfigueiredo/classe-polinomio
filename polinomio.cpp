@@ -621,6 +621,11 @@ double *Polinomio ::resolve(int &num) const
                 }
             }
         }
+        if(termos == 2){
+            raizes = (double *)malloc(sizeof(double));
+            raizes[0] = -p.poli[0] / p.poli[1];
+            tam++;
+        }
         if(tam == 0)
             throw NaoRaizesReais();
 
