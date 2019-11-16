@@ -1,13 +1,16 @@
 #ifndef __POLINOMIO
 #define __POLINOMIO
 
-#include <iostream>
+#include <cmath>
 #include <cstdlib>
+#include <iostream>
 
 using namespace std;
 
 class PosicaoInvalidaExcept{};
 class ArgumentoInvalidoExcept{};
+class NaoHaRaizes{};
+class NaoRaizesReais{};
 class Polinomio
 {
 public:
@@ -72,7 +75,7 @@ public:
 	// deve lançar 'ArgumentoInvalidoExcept' se o denominador não for da forma especificada acima
 	// Sugestão: https://pt.wikipedia.org/wiki/Algoritmo_de_Briot-Ruffini
 	Polinomio operator%(const Polinomio &) const; //--FEITO--
-	Polinomio &operator%=(const Polinomio &);//--FEITO--
+	Polinomio &operator%=(const Polinomio &);	 //--FEITO--
 
 	// Retorna i-ésimo coeficiente
 	// Deve lançar 'PosicaoInvalidaExcept' se houver tentativa de acessar um bit não existente
@@ -120,7 +123,8 @@ public:
 private:
 	double *poli;
 	int termos;
-	double avaliaPoli(double *, int, int, double) const;
+	double avaliaPoli(int, int, double) const;
+	double delta() const;
 };
 
 #endif

@@ -24,7 +24,7 @@ ostream &operator<<(ostream &os, const Polinomio &escreve)
                 else if (i == 0)
                     os << " - " << escreve.poli[i] * -1;
                 else if(i == 1)
-                    os << " - " << escreve.poli[i] << "x";
+                    os << " - " << escreve.poli[i] * -1  << "x";
                 else
                     os << " - " << escreve.poli[i] * -1 << "x^" << i;
             }
@@ -44,7 +44,7 @@ istream &operator>>(istream &is, Polinomio &a)
     is >> a.termos;
     a.poli = (double *)realloc(a.poli, a.termos * sizeof(double));
 
-    cout << "Informe os coeficientes do polinômio(termo indepedente, x, x^2, etc): ";
+    cout << "Informe os coeficientes do polinômio(termo independente, x, x^2, etc): ";
     for (int i = 0; i < a.termos; i++)
         is >> a.poli[i];
 }
@@ -60,72 +60,8 @@ Polinomio operator*(const double &num, const Polinomio &p)
 int main()
 {
 
-    double *teste;
-    teste = (double *)malloc(2 * sizeof(double));
-    teste[0] = 1;
-    teste[1] = 1;
-    Polinomio a(2, teste);
     Polinomio b;
-    cin >> b;
-    //cout << "a: " << a;
-
-    //cout << b / a;
-
-    //b -= a;
-    cout << b;
-    int aux = 1;
-    b.resolve(aux);
-    //Polinomio e = a*b;
-
-    //cout << "e: " << e;
-    /*int i = 4;
-    try
-    {
-        a = a/i;
-        cout << "teste " << a;
-    }
-    catch (invalidException &e)
-    {
-        cout << "xapuletei\n";
-    }
-
-    a += b;
-    cout << "a: " << a;
-
-    b = a + b;
-    cout << "b: " << b;
-
-    a = a + 5;
-    cout << "a: " << a;
-
-    a += 10;
-    cout << "a: " << a;]
+    int v[2];
     
-    Polinomio c = a.derivada();
-    cout << "c: " << c;
-
-    Polinomio d = a.integral();
-    cout << "d: " << d;
-
-    double avalia = a.avalia(0);
-
-    cout << "Avaliação de A em 0: " << avalia << endl;
-
-    b = a;
-    cout << "b: " << b;
-
-    if (a == b)
-        cout << "É igual\n";
-    else
-        cout << "É diferente\n";*/
-
-    /*b *= 3;
-    cout << "b: " << b;
-
-    b = b*3;
-    cout << "b: " << b; 
-
-    /*  TESTEM OS METODOS AQUI   */
-    free(teste);
     return 0;
 }

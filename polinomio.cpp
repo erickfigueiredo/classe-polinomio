@@ -282,7 +282,7 @@ Polinomio &Polinomio::operator/=(const int &divisor)
     }
     catch (ArgumentoInvalidoExcept &e)
     {
-        cout << "Divisao invalida!!\n";
+        cout << "Divisao invalida!\n";
     }
 
     return *this;
@@ -302,7 +302,7 @@ Polinomio Polinomio::operator/(const int &divisor) const
     }
     catch (ArgumentoInvalidoExcept &e)
     {
-        cout << "Divisao invalida!!\n";
+        cout << "Divisao invalida!\n";
     }
 
     return resultado;
@@ -329,7 +329,7 @@ Polinomio Polinomio::operator/(const Polinomio &p) const
     }
     catch (ArgumentoInvalidoExcept &e)
     {
-        cout << "Divisao invalida!!\n";
+        cout << "Divisao invalida!\n";
     }
 }
 
@@ -357,7 +357,7 @@ Polinomio &Polinomio::operator/=(const Polinomio &p)
     }
     catch (ArgumentoInvalidoExcept &e)
     {
-        cout << "Divisao invalida!!\n";
+        cout << "Divisao invalida!\n";
     }
 }
 
@@ -387,7 +387,7 @@ Polinomio Polinomio::operator%(const Polinomio &p) const
     }
     catch (ArgumentoInvalidoExcept &e)
     {
-        cout << "Divisao invalida!!\n";
+        cout << "Divisao invalida!\n";
     }
 }
 
@@ -417,7 +417,7 @@ Polinomio &Polinomio::operator%=(const Polinomio &p)
     }
     catch (ArgumentoInvalidoExcept &e)
     {
-        cout << "Divisao invalida!!\n";
+        cout << "Divisao invalida!\n";
     }
 }
 
@@ -463,7 +463,7 @@ double Polinomio ::operator[](int i) const
     }
     catch (PosicaoInvalidaExcept &e)
     {
-        cout << "Posição invalida!!\n";
+        cout << "Posição invalida!\n";
     }
 }
 
@@ -480,7 +480,7 @@ double &Polinomio ::operator[](int i)
     }
     catch (PosicaoInvalidaExcept &e)
     {
-        cout << "Posição invalida!!\n";
+        cout << "Posição invalida!\n";
     }
 }
 
@@ -533,49 +533,109 @@ Polinomio Polinomio::integral() const
 //------Avaliacao do polinomio
 double Polinomio::avalia(double a) const
 {
-    return avaliaPoli(poli, termos, 0, a);
+    return avaliaPoli(termos, 0, a);
 }
 
 //Método de Horner
-double Polinomio::avaliaPoli(double *poli, int termos, int aux, double a) const
+double Polinomio::avaliaPoli(int termos, int aux, double a) const
 {
     //Verificamos se o calculo já se encontra no coeficiente multiplicado pelo segundo maior grau
     if (aux == termos - 2)
         return poli[termos - 1] * a + poli[termos - 2];
 
     //Mais externo para o mais interno
-    return avaliaPoli(poli, termos, aux + 1, a) * a + poli[aux];
+    return avaliaPoli(termos, aux + 1, a) * a + poli[aux];
 }
-//Metodo de Newton-Rhapson
+
+//------Metodo de Newton-Rhapson
 //x(n+1) = x(n) - f(x)/f'(x)
 //achar um intervalo onde f(x) troca de sinal(possivel raiz)
 //avaliar em um dos extremos, se for suficientemente bom
 //chamar briot-ruffini, diminuido o grau, e repetir ate o final
-double *Polinomio ::resolve(int &num) const
-{   
-    double *v;
-    //double *t = (double*)calloc(2,sizeof(double));
-    double menor;
-    double aux;
-    menor = this->avalia(0);
-    //cout << menor << endl;
-    for (int i = -100; i < 101; i++)
-    {
-        aux = this->avalia(i);
-        if (abs(0 - aux) <= abs(0 - menor))
-            menor = i;
-    }
-   // cout << menor << endl;
-    for (int i = 0; i < 1000; i++)
-    {
-        menor = menor - (this->avalia(menor) / (this->derivada()).avalia(menor));
-        if (this->avalia(menor) < 10e-6)
-        {   
-            cout << menor << endl;
-            cout << this->avalia(menor) << endl;
-            break;
-        }
-    }
 
-    return v;
+double *Polinomio ::resolve(int &num) const
+{
+    try
+    {
+        Polinomio p(*this);
+        double *bin, *raizes;
+        double x1, x = num;
+        int tam = 0;
+        bool temRaiz = false;
+        if (p.termos == 1)
+        {
+            throw NaoHaRaizes();
+        }
+        for (int i = termos; i > 3; i--)
+        {
+            for (int i = 0; i < 10e6; i++)
+            {
+                x1 = x - p.avalia(x) / p.derivada().avalia(x);
+                if (x == x1)
+                {
+                    temRaiz = true;
+                    break;
+                }
+                x = x1;
+            }
+            if (temRaiz)
+            {
+                if (tam == 0)
+                {
+                    raizes = (double *)malloc(sizeof(double));
+                    raizes[0] = x;
+                    tam++;
+                }
+                else
+                {
+                    raizes = (double *)realloc(raizes, (tam + 1) * sizeof(double));
+                    raizes[tam] = x;
+                    tam++;
+                }
+                bin = (double *)malloc(2 * sizeof(double));
+                bin[0] = x;
+                bin[1] = 1;
+                Polinomio binomio(2, bin);
+                free(bin);
+                p /= binomio;
+            }
+            temRaiz = false;
+        }
+        if (tam == termos - 3)
+        {
+            if (p.delta() >= 0)
+            {
+                if (tam == 0)
+                {
+                    raizes = (double *)malloc(2 * sizeof(double));
+                    raizes[0] = (-p.poli[1] + sqrt(p.delta())) / 2 * p.poli[3];
+                    raizes[1] = (-p.poli[1] - sqrt(p.delta())) / 2 * p.poli[3];
+                    tam = 2;
+                }
+                else
+                {
+                    raizes = (double *)realloc(raizes, (tam + 2) * sizeof(double));
+                    raizes[tam] = (-p.poli[1] + sqrt(p.delta())) / 2 * p.poli[3];
+                    raizes[tam + 1] = (-p.poli[1] - sqrt(p.delta())) / 2 * p.poli[3];
+                    tam += 2;
+                }
+            }
+        }
+        if(tam == 0)
+            throw NaoRaizesReais();
+
+        return raizes;
+    }
+    catch (NaoHaRaizes &e)
+    {
+        cout << "O polinômio não possui raiz!\n";
+    }
+    catch(NaoRaizesReais &e){
+        cout << "Não foi possível encontrar as raizes no intervalo ou não há raízes reais\n";
+    }
+}
+
+double Polinomio::delta() const
+{
+    return (pow(poli[1], 2) - 4 * poli[3] * poli[0]);
 }
