@@ -12,7 +12,7 @@ ostream &operator<<(ostream &os, const Polinomio &escreve)
                     os << escreve.poli[i] << "x^" << i;
                 else if (i == 0)
                     os << " + " << escreve.poli[i];
-                else if(i == 1)
+                else if (i == 1)
                     os << " + " << escreve.poli[i] << "x";
                 else
                     os << " + " << escreve.poli[i] << "x^" << i;
@@ -23,8 +23,8 @@ ostream &operator<<(ostream &os, const Polinomio &escreve)
                     os << "- " << escreve.poli[i] * -1 << "x^" << i;
                 else if (i == 0)
                     os << " - " << escreve.poli[i] * -1;
-                else if(i == 1)
-                    os << " - " << escreve.poli[i] * -1  << "x";
+                else if (i == 1)
+                    os << " - " << escreve.poli[i] * -1 << "x";
                 else
                     os << " - " << escreve.poli[i] * -1 << "x^" << i;
             }
@@ -60,8 +60,5 @@ Polinomio operator*(const double &num, const Polinomio &p)
 int main()
 {
 
-    Polinomio b;
-    int v[2];
-    
     return 0;
 }
