@@ -568,6 +568,7 @@ double *Polinomio ::resolve(int &num) const
         }
         for (int i = termos; i > 3; i--)
         {
+            cout << "entrou nao era" << endl;
             for (int i = 0; i < 10e6; i++)
             {
                 x1 = x - p.avalia(x) / p.derivada().avalia(x);
@@ -583,13 +584,13 @@ double *Polinomio ::resolve(int &num) const
                 if (tam == 0)
                 {
                     raizes = (double *)malloc(sizeof(double));
-                    raizes[0] = round(x);
+                    raizes[0] = x;
                     tam++;
                 }
                 else
                 {
                     raizes = (double *)realloc(raizes, (tam + 1) * sizeof(double));
-                    raizes[tam] = round(x);
+                    raizes[tam] = x;
                     tam++;
                 }
                 bin = (double *)malloc(2 * sizeof(double));
@@ -607,23 +608,23 @@ double *Polinomio ::resolve(int &num) const
             {
                 if (tam == 0)
                 {
-                    raizes = (double *)malloc(2 * sizeof(double));
-                    raizes[0] = round((-p.poli[1] + sqrt(p.delta())) / 2 * p.poli[2]);
-                    raizes[1] = round((-p.poli[1] - sqrt(p.delta())) / 2 * p.poli[2]);
+                    raizes = (double *)calloc(2, sizeof(double));
+                    raizes[0] = (-p.poli[1] + sqrt(p.delta())) / (2 * p.poli[2]);
+                    raizes[1] = (-p.poli[1] - sqrt(p.delta())) / (2 * p.poli[2]);
                     tam = 2;
                 }
                 else
                 {
                     raizes = (double *)realloc(raizes, (tam + 2) * sizeof(double));
-                    raizes[tam] = round((-p.poli[1] + sqrt(p.delta())) / 2 * p.poli[2]);
-                    raizes[tam + 1] = round((-p.poli[1] - sqrt(p.delta())) / 2 * p.poli[2]);
+                    raizes[tam] = (-p.poli[1] + sqrt(p.delta())) / (2 * p.poli[2]);
+                    raizes[tam + 1] = (-p.poli[1] - sqrt(p.delta())) / (2 * p.poli[2]);
                     tam += 2;
                 }
             }
         }
         if(termos == 2){
             raizes = (double *)malloc(sizeof(double));
-            raizes[0] = round(-p.poli[0] / p.poli[1]);
+            raizes[0] = -p.poli[0] / p.poli[1];
             tam++;
         }
         if(tam == 0)
@@ -642,5 +643,5 @@ double *Polinomio ::resolve(int &num) const
 
 double Polinomio::delta() const
 {
-    return (pow(this->poli[1], 2) - 4 * this->poli[2] * this->poli[0]);
+    return (pow(this->poli[1], 2) - (4 * this->poli[2] * this->poli[0]));
 }
