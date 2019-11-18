@@ -560,11 +560,6 @@ double *Polinomio ::resolve(int &num) const
     {
         Polinomio p(*this);
 
-        if (p.derivada().avalia(num) == 0)
-        {
-            num = tam;
-            throw ArgumentoInvalidoExcept();
-        }
         double *bin, *raizes;
         double x1, x = num;
         bool temRaiz = false;
@@ -574,6 +569,11 @@ double *Polinomio ::resolve(int &num) const
         }
         for (int i = termos; i > 3; i--)
         {
+            if (p.derivada().avalia(num) == 0)
+            {
+                num = tam;
+                throw ArgumentoInvalidoExcept();
+            }
             for (int i = 0; i < 10e6; i++)
             {
                 x1 = x - p.avalia(x) / p.derivada().avalia(x);
@@ -603,11 +603,10 @@ double *Polinomio ::resolve(int &num) const
                 bin[1] = 1;
                 Polinomio binomio(2, bin);
                 free(bin);
-                p = p / binomio;
+                p /= binomio;
             }
             temRaiz = false;
         }
-        cout << p;
         if (tam == termos - 3)
         {
             if (p.delta() >= 0)
@@ -615,15 +614,15 @@ double *Polinomio ::resolve(int &num) const
                 if (tam == 0)
                 {
                     raizes = (double *)calloc(2, sizeof(double));
-                    raizes[0] = (-p.poli[1] + sqrt(p.delta())) / (2 * p.poli[2]);
-                    raizes[1] = (-p.poli[1] - sqrt(p.delta())) / (2 * p.poli[2]);
+                    raizes[0] = (-1 * p.poli[1] + sqrt(p.delta())) / (2 * p.poli[2]);
+                    raizes[1] = (-1 * p.poli[1] - sqrt(p.delta())) / (2 * p.poli[2]);
                     tam = 2;
                 }
                 else
                 {
                     raizes = (double *)realloc(raizes, (tam + 2) * sizeof(double));
-                    raizes[tam] = (-p.poli[1] + sqrt(p.delta())) / (2 * p.poli[2]);
-                    raizes[tam + 1] = (-p.poli[1] - sqrt(p.delta())) / (2 * p.poli[2]);
+                    raizes[tam] = (-1 * p.poli[1] + sqrt(p.delta())) / (2 * p.poli[2]);
+                    raizes[tam + 1] = (-1 * p.poli[1] - sqrt(p.delta())) / (2 * p.poli[2]);
                     tam += 2;
                 }
             }

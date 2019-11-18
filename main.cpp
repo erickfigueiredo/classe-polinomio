@@ -67,7 +67,6 @@ int main()
 
     double *raiz = a.resolve(n);
 
-
     if(n != 0){
         for(int i=0;i<n;i++)
             cout << raiz[i] << endl;
