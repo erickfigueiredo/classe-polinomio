@@ -569,7 +569,7 @@ double *Polinomio ::resolve(int &num) const
         }
         for (int i = termos; i > 3; i--)
         {
-            if (p.derivada().avalia(num) == 0)
+            if (p.derivada().avalia(x) == 0)
             {
                 num = tam;
                 throw ArgumentoInvalidoExcept();
