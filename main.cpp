@@ -40,8 +40,9 @@ ostream &operator<<(ostream &os, const Polinomio &escreve)
 
 istream &operator>>(istream &is, Polinomio &a)
 {
-    cout << "Informe a quantidade de termos do polinômio: ";
+    cout << "Informe o grau do polinômio: ";
     is >> a.termos;
+    a.termos++;
     a.poli = (double *)realloc(a.poli, a.termos * sizeof(double));
 
     cout << "Informe os coeficientes do polinômio(termo independente, x, x^2, etc): ";
@@ -63,8 +64,6 @@ int main()
     int n = -1;
     cin >> a;
 
-    
-
     double *raiz = a.resolve(n);
 
     if(n != 0){
@@ -72,7 +71,6 @@ int main()
             cout << raiz[i] << endl;
         free(raiz);    
     }
-    
-        
+            
     return 0;
 }
