@@ -60,14 +60,20 @@ Polinomio operator*(const double &num, const Polinomio &p)
 int main()
 {
     Polinomio a;
-    int n = 0;
+    int n = -1;
     cin >> a;
 
-    double *raiz = a.resolve(n);
-    for (int i = 0; i < 2; i++)
-        cout << raiz[i] << endl;
+    
 
+    double *raiz = a.resolve(n);
+
+
+    if(n != 0){
+        for(int i=0;i<n;i++)
+            cout << raiz[i] << endl;
+        free(raiz);    
+    }
+    
         
-    free(raiz);
     return 0;
 }

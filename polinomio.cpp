@@ -555,20 +555,25 @@ double Polinomio::avaliaPoli(int termos, int aux, double a) const
 
 double *Polinomio ::resolve(int &num) const
 {
+    int tam = 0;
     try
     {
         Polinomio p(*this);
+
+        if (p.derivada().avalia(num) == 0)
+        {
+            num = tam;
+            throw ArgumentoInvalidoExcept();
+        }
         double *bin, *raizes;
         double x1, x = num;
-        int tam = 0;
         bool temRaiz = false;
         if (p.termos == 1)
         {
-            throw NaoHaRaizes();
+            throw NaoHaRaizesExcept();
         }
         for (int i = termos; i > 3; i--)
         {
-            cout << "entrou nao era" << endl;
             for (int i = 0; i < 10e6; i++)
             {
                 x1 = x - p.avalia(x) / p.derivada().avalia(x);
@@ -594,14 +599,15 @@ double *Polinomio ::resolve(int &num) const
                     tam++;
                 }
                 bin = (double *)malloc(2 * sizeof(double));
-                bin[0] = x;
+                bin[0] = -x;
                 bin[1] = 1;
                 Polinomio binomio(2, bin);
                 free(bin);
-                p /= binomio;
+                p = p / binomio;
             }
             temRaiz = false;
         }
+        cout << p;
         if (tam == termos - 3)
         {
             if (p.delta() >= 0)
@@ -622,22 +628,31 @@ double *Polinomio ::resolve(int &num) const
                 }
             }
         }
-        if(termos == 2){
+        if (termos == 2)
+        {
             raizes = (double *)malloc(sizeof(double));
             raizes[0] = -p.poli[0] / p.poli[1];
             tam++;
         }
-        if(tam == 0)
-            throw NaoRaizesReais();
+        if (tam == 0)
+            throw NaoRaizesReaisExcept();
 
+        num = tam;
         return raizes;
     }
-    catch (NaoHaRaizes &e)
+    catch (NaoHaRaizesExcept &e)
     {
         cout << "O polinômio não possui raiz!\n";
+        num = tam;
     }
-    catch(NaoRaizesReais &e){
+    catch (NaoRaizesReaisExcept &e)
+    {
         cout << "Não foi possível encontrar as raizes no intervalo ou não há raízes reais\n";
+        num = tam;
+    }
+    catch (ArgumentoInvalidoExcept &e)
+    {
+        cout << "Divisao inválida por ZERO!\n";
     }
 }
 

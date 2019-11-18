@@ -9,8 +9,9 @@ using namespace std;
 
 class PosicaoInvalidaExcept{};
 class ArgumentoInvalidoExcept{};
-class NaoHaRaizes{};
-class NaoRaizesReais{};
+class NaoHaRaizesExcept{};
+class NaoRaizesReaisExcept{};
+
 class Polinomio
 {
 public:
