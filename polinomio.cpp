@@ -1,14 +1,23 @@
+//----------------------------------------------------------------------------------------------------------------------------------------------//
+/* 
+    Este trabalho foi desenvolvido pelos alunos: Carlos Eduardo, Érick Lima, Guilherme Oliveira e Thiago Ferreira
+    E tem por objetivo representar, por meio de uma classe, um polinômio e suas propriedades
+    Os métodos implementados abaixo foram prototipados no arquivo polinômio.h, que foi disponibilizado pelo professor.
+ */
+
 #include "polinomio.h"
 
-//FALTAM COMENTARIOS
+//Abaixo está a implementação dos métodos construtores:
 
 /*----------------------------Construtores----------------------------*/
+//Este construtor é o responsável por alocar os recursos para o polinômio mais simples possível, com apenas 1 termo.
 Polinomio::Polinomio()
 {
     termos = 1;
     poli = (double *)calloc(1, sizeof(double));
 }
 
+//Este construtor é o responsável por alocar os recursos para o polinômio mais simples possível e atribuir um valor (informado pelo usuário) ao seu único termo.
 Polinomio::Polinomio(const int num)
 {
     termos = 1;
@@ -16,6 +25,7 @@ Polinomio::Polinomio(const int num)
     *poli = num;
 }
 
+//Este construtor é responsável por alocar os resursos para o polinômio de tamanho n (informado pelo usuário) e o preenche com os n termos também informados pelo usuário.
 Polinomio::Polinomio(unsigned int n, double *a)
 {
     termos = n;
@@ -24,6 +34,7 @@ Polinomio::Polinomio(unsigned int n, double *a)
         poli[i] = a[i];
 }
 
+//Este é o construtor de cópia. Ele é responsável por fazer a cópia no momento em que é feita uma atribuição no ato de instanciação de um novo Polinômio.
 Polinomio::Polinomio(const Polinomio &p)
 {
     this->termos = p.termos;
@@ -33,6 +44,8 @@ Polinomio::Polinomio(const Polinomio &p)
 }
 
 /*----------------------------Destrutor----------------------------*/
+
+//Este é o método destrutor. Ele é responsável por desalocar os recursos alocados no ato da criação do objeto nos construtores.
 Polinomio::~Polinomio()
 {
     free(poli);
