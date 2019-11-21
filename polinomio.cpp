@@ -51,7 +51,17 @@ Polinomio::~Polinomio()
     free(poli);
 }
 
+
 /*----------------------------Operadores----------------------------*/
+
+//Abaixo estão implementadas as sobrecargas dos operadores sobre os polinômios.
+
+//Abaixo, o operador de atribuição.
+
+/* Se o objeto a ser atribuído for igual ao proprio objeto que invovou o método, então, retorna esse objeto. 
+ * Senão, a quantidade de termos é copiada do objeto atribuído, a quantidade de memória utilizada é redefinida para a quantidade de termos
+ * e os termos são copiados para o novo objeto.
+ */
 
 //------Atribuicao
 Polinomio &Polinomio::operator=(const Polinomio &p)
@@ -64,6 +74,16 @@ Polinomio &Polinomio::operator=(const Polinomio &p)
     for (int i = 0; i < this->termos; i++)
         this->poli[i] = p.poli[i];
 }
+
+//Abaixo, o operador de soma:
+
+/* Primeiro, é criado um objeto que receberá o resultado da operação, tendo em vista que o método é constante e não pode alterar nenhum parâmetro passado. 
+
+  Se a quantidade de termos do primeiro objeto for maior ou igual à quantidade de termos do segundo objeto, toda a operação de redefinição de tamanho em memória do polinômio é refeita com base na quantidade de termos do objeto que invocou o método e
+  polinômio do objeto resultado recebe os valores do primeiro polinômio. Logo após, esses valores são incrementados com os valores do segundo polinômio.
+
+  Do contrário, a mesma operação é feita tendo como base o número de termos do polinômio passado como parâmetro.
+ */
 
 //------Soma de objetos
 Polinomio Polinomio::operator+(const Polinomio &p) const
@@ -96,6 +116,14 @@ Polinomio Polinomio::operator+(const Polinomio &p) const
 }
 
 //------Soma de objeto com um numero
+
+/* Primeiramente é criado o objeto do resultado e feito o processo de redefinição de uso de memória.
+   
+   Depois, o objeto de resultado recebe os valores dos termos do objeto invocador.
+
+   Logo após, os valores dentro do objeto invocador são acrescidos do número passado como parâmetro.
+
+ */
 Polinomio Polinomio::operator+(const double &num) const
 {
     Polinomio resultado;
@@ -113,6 +141,16 @@ Polinomio Polinomio::operator+(const double &num) const
 }
 
 //------Incremento de um polinomio
+
+/* 
+  Caso o numero de termos seja maior ou igual ao número de termos do objeto passado, é feito o incremento dos valores dos termos no objeto invocador.
+  
+  Caso contrário, criado um novo objeto semelhante à this (aux), e sua quantidade de memória é redefinida com base na quantidade de termos do objeto passado como parâmetro.
+
+  Depois, para cada termo em this, o seu valor é o resultado da soma dos termos de aux com o objeto passado como parâmetro. 
+
+  Ao final, a referência do objeto invocador é retornada.
+ */
 Polinomio &Polinomio::operator+=(const Polinomio &p)
 {
     if (this->termos >= p.termos)
@@ -141,6 +179,9 @@ Polinomio &Polinomio::operator+=(const Polinomio &p)
 }
 
 //------Incremento de um double
+
+//A implementação deste método é semelhante ao anterior, entretanto, utiliza-se da sobrecarga do operador anteriormente implementada.
+
 Polinomio &Polinomio::operator+=(const double &num)
 {
     this->poli[0] += num;
@@ -148,6 +189,7 @@ Polinomio &Polinomio::operator+=(const double &num)
 }
 
 //------Subtracao de objetos
+
 Polinomio Polinomio::operator-(const Polinomio &p) const
 {
     Polinomio resultado;
