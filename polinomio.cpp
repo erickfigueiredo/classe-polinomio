@@ -424,7 +424,7 @@ Polinomio Polinomio::operator/(const int &divisor) const
 /* 
     A divisão de um polinômio por outro é feita através desse método.
     Se a quantidade de termos do polinômio passado como parâmetro for diferente de 2, é lançada uma exceção de argumento inválido.
-    
+    Logo após, é feita a divisão dos termos
  */
 Polinomio Polinomio::operator/(const Polinomio &p) const
 {
@@ -449,6 +449,14 @@ Polinomio Polinomio::operator/(const Polinomio &p) const
         cout << "Divisao invalida!\n";
     }
 }
+
+
+/* 
+    A seguir o método de divisão incremental por um polinômio
+
+    Esse método tem o funcionamento semelhante ao anterio, entretanto sua operação é incremental.
+
+ */
 
 Polinomio &Polinomio::operator/=(const Polinomio &p)
 {
@@ -478,6 +486,12 @@ Polinomio &Polinomio::operator/=(const Polinomio &p)
     }
 }
 
+/* 
+    O próximo método é responsável por retornar o resto da divisão de um polinômio por outro polinômio
+
+    Como este método é const, é criado um objeto resultado que é retornado ao final da operação.
+
+ */
 Polinomio Polinomio::operator%(const Polinomio &p) const
 {
     try
@@ -507,6 +521,12 @@ Polinomio Polinomio::operator%(const Polinomio &p) const
         cout << "Divisao invalida!\n";
     }
 }
+
+/* 
+    O funcionamento do método de resto incremental descrito a seguir é semelhante ao anterior. Porém, este armazena os valores 
+    e faz as operações tendo os mesmos como base de cálculo.
+
+ */
 
 Polinomio &Polinomio::operator%=(const Polinomio &p)
 {
@@ -539,12 +559,19 @@ Polinomio &Polinomio::operator%=(const Polinomio &p)
 }
 
 //------Incremento de 1
+
+/* 
+    O método a seguir faz o incremento de uma unidade no termo independente do polinômio e retorna o objeto invocador.
+ */
 Polinomio &Polinomio::operator++(int)
 {
     poli[0]++;
     return *this;
 }
 
+/* 
+    Este método é semelhante ao anterior, o que difere é apenas o retorno, que é feito por um segundo objeto.
+ */
 Polinomio Polinomio::operator++()
 {
     Polinomio resultado(*this);
@@ -553,12 +580,20 @@ Polinomio Polinomio::operator++()
 }
 
 //------Decremento de 1
+
+/* 
+    Semelhantemente ao método de incremento, o método de decremento retira uma unidade do termo independente do polinômio e retorna o
+    objeto invocador.
+ */
 Polinomio &Polinomio::operator--(int)
 {
     poli[0]--;
     return *this;
 }
 
+/* 
+    Semelhantemente ao método análogo de incremento, este método faz o decremento e retorna através de um segundo objeto.
+ */
 Polinomio Polinomio::operator--()
 {
     Polinomio resultado(*this);
@@ -567,6 +602,10 @@ Polinomio Polinomio::operator--()
 }
 
 //------Operadores de indexacao
+
+/* 
+    
+ */
 double Polinomio ::operator[](int i) const
 {
     if (i == 0)
@@ -601,6 +640,11 @@ double &Polinomio ::operator[](int i)
     }
 }
 
+/* 
+    O método a seguir realiza a comparação entre dois polinômios. Caso qualquer dermo não seja igual ao do outro, 
+    são considerados diferentes.
+
+ */
 //------Operador de comparacao
 bool Polinomio::operator==(const Polinomio &p) const
 {
@@ -617,7 +661,13 @@ bool Polinomio::operator==(const Polinomio &p) const
 
 /*----------------------------Calculos----------------------------*/
 
+/* A seguir estão descritas as operaçãoes que podem ser feitas sobre polinômios */
+
 //------Derivacao de polinomio
+
+/* 
+   Este método é responsável por caucular a derivada do polinômio, utilizado a definição matemática de derivadas. 
+ */
 Polinomio Polinomio::derivada() const
 {
     Polinomio d;
@@ -631,6 +681,10 @@ Polinomio Polinomio::derivada() const
 }
 
 //------Integracao de polinomio
+
+/* 
+    Este método é responsável por caucular a integral do polinômio, utilizado a definição matemática de integrais. 
+ */
 Polinomio Polinomio::integral() const
 {
     Polinomio dx;
@@ -648,6 +702,9 @@ Polinomio Polinomio::integral() const
 }
 
 //------Avaliacao do polinomio
+/* 
+    Esse método invoca a função avaliaPoli, que se utiliza do método de Horner para avialiar os polinômios na forma monomial
+ */
 double Polinomio::avalia(double a) const
 {
     return avaliaPoli(termos, 0, a);
@@ -771,7 +828,9 @@ double *Polinomio ::resolve(int &num) const
         cout << "Divisao inválida por ZERO!\n";
     }
 }
-
+/* 
+    Realiza o cálculo do delta com os valores do polinômio.
+ */
 double Polinomio::delta() const
 {
     return (pow(this->poli[1], 2) - (4 * this->poli[2] * this->poli[0]));
