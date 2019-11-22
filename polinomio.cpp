@@ -190,6 +190,14 @@ Polinomio &Polinomio::operator+=(const double &num)
 
 //------Subtracao de objetos
 
+//Esse método consiste em sobrecarregar o operador de subtração para que sejam feitas as subtrações dos valores de dois polinômios.
+/* 
+    Antes de tudo, é verificado se o polinômio invocador do método possui mais termos do que o subtrator.
+    Na operação ...
+    Primeiro, é criado um polinômio novo que será usado par fazer a operação e salvar os resultados
+    Depois de ter o tamanho realocado, o polinômio criado recebe os valores dos termos do primeiro polinômio a se operar
+    Em seguida, os valores contidos no polinômio resultado são decrementados com os valores dos termos do segundo polinômio
+ */
 Polinomio Polinomio::operator-(const Polinomio &p) const
 {
     Polinomio resultado;
@@ -220,6 +228,9 @@ Polinomio Polinomio::operator-(const Polinomio &p) const
 }
 
 //------Subtracao de objeto com um numero
+//O funcionamento deste método é parecedio com o anterior, diferindo apenas no fato de que a subtração é feita de um valor fixo, 
+//e não mais com os valores dos termos de um polinômio.
+
 Polinomio Polinomio::operator-(const double &num) const
 {
     Polinomio resultado;
@@ -239,6 +250,15 @@ Polinomio Polinomio::operator-(const double &num) const
 }
 
 //------Decremento de um polinomio
+
+/* 
+  O decremento do polinômio é feito da seguinte forma:
+  Primeiro, é feito o teste para saber se o primeiro polinômio é menor ou igual ao segundo.
+  Caso seja, o decremento é feito, termo a termo, tradicionalmente.
+  Caso contrário, é criado um polinômio de resultado (aux) com o número de termos do maior polinômio
+  Em seguida a quantidade de termos do polinômio passado é copiado para o polinômio invocador.
+  Após isso é feito o decremento com base na quantidade de termos do polinômio.
+ */
 Polinomio &Polinomio::operator-=(const Polinomio &p)
 {
     if (this->termos >= p.termos)
@@ -267,6 +287,10 @@ Polinomio &Polinomio::operator-=(const Polinomio &p)
 }
 
 //------Decremento de um double
+
+/* 
+    Nesse método, o decremento é feito sempre no termo independente. Um valor double é passado, e o termo é decrescido do valor passado.
+ */
 Polinomio &Polinomio::operator-=(const double &num)
 {
     this->poli[0] -= num;
@@ -274,6 +298,13 @@ Polinomio &Polinomio::operator-=(const double &num)
 }
 
 //------Multiplicacao de objetos
+
+/* 
+    O procedimento padrão dessa operação é semelhante aos demais métodos descritos. 
+    Após o procedimento padrão, para a quantidade de termos do polinômio invocador, e, para a quantidade de termos do
+    polinômio passado como parâmetro, o polinômio de resultado recebe a multiplicação entre os respectivos termos dos dois polinômios.
+
+ */
 Polinomio Polinomio::operator*(const Polinomio &p) const
 {
     Polinomio resultado;
@@ -287,6 +318,11 @@ Polinomio Polinomio::operator*(const Polinomio &p) const
 }
 
 //------Multiplicacao de objeto com um numero
+/* 
+    A multiplicação de um polinômio por um número baseia-se em percorrer os termos do polinômio e fazer a multiplicação termo a termo
+    pelo número em questão. 
+ */
+
 Polinomio Polinomio::operator*(const double &num) const
 {
 
@@ -299,6 +335,12 @@ Polinomio Polinomio::operator*(const double &num) const
 }
 
 //------Multiplicacao incremental de objeto com objeto
+
+/* 
+    Para esse método é feito o procedimento padrão de criação e dimensionamento do polinômio de resultado
+    Logo após, é feita a multiplicação incremental dos elementos no polinômio de resultado de acordo com a quantidade de termos do
+    polinômio invocador.
+ */
 Polinomio &Polinomio::operator*=(const Polinomio &p)
 {
     Polinomio resultado;
@@ -319,6 +361,9 @@ Polinomio &Polinomio::operator*=(const Polinomio &p)
 }
 
 //------Multiplicacao incremental de objeto com um numero
+/* 
+  A implementação desse método é bem simples. A multiplicação é feita termo a termo incrementalmente pelo número passado.
+ */
 Polinomio &Polinomio::operator*=(const double &num)
 {
     for (int i = 0; i < this->termos; i++)
@@ -328,6 +373,11 @@ Polinomio &Polinomio::operator*=(const double &num)
 }
 
 //------Div/igual por inteiro
+
+/* A divisão dos termos de um polinômio por um número inteiro é feita somente se o divisor for diferente de 0. Caso seja igual a 0,
+   e lançada uma exceção de divisão inválida.
+   Se o divisor for diferente de 0, cada termo é dividido individualmente pelo numero passado.
+ */
 Polinomio &Polinomio::operator/=(const int &divisor)
 {
     try
@@ -346,6 +396,10 @@ Polinomio &Polinomio::operator/=(const int &divisor)
 }
 
 //-------Divisao por inteiro
+
+/* 
+    Procedimento semelhante ao do método anterior, mudando apenas o tipo do divisor par iteiro.
+ */
 Polinomio Polinomio::operator/(const int &divisor) const
 {
     Polinomio resultado(*this);
@@ -366,6 +420,12 @@ Polinomio Polinomio::operator/(const int &divisor) const
 }
 
 //------Divisao de polinomios
+
+/* 
+    A divisão de um polinômio por outro é feita através desse método.
+    Se a quantidade de termos do polinômio passado como parâmetro for diferente de 2, é lançada uma exceção de argumento inválido.
+    
+ */
 Polinomio Polinomio::operator/(const Polinomio &p) const
 {
     try
