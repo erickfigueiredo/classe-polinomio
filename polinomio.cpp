@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------------------------------------------------------------------------------//
 /* 
-    Este trabalho foi desenvolvido pelos alunos: Carlos Eduardo, Érick Lima, Guilherme Oliveira e Thiago Ferreira
+    Este trabalho foi desenvolvido pelos alunos: Carlos Eduardo, Erick Lima, Guilherme Oliveira e Thiago Ferreira
     E tem por objetivo representar, por meio de uma classe, um polinômio e suas propriedades
     Os métodos implementados abaixo foram prototipados no arquivo polinômio.h, que foi disponibilizado pelo professor.
  */
@@ -8,6 +8,18 @@
 #include "polinomio.h"
 
 //Abaixo está a implementação dos métodos construtores:
+
+//EXCEÇÕES
+
+PosicaoInvalidaExcept::PosicaoInvalidaExcept(){ cout << "ERRO: Posição inválida!\n";}
+
+ArgumentoInvalidoExcept::ArgumentoInvalidoExcept(){ cout << "ERRO: Divisão por ZERO!\n";}
+
+NaoHaRaizesExcept::NaoHaRaizesExcept(){ cout << "ERRO: O polinômio não possui raiz(es)!\n";}
+
+NaoRaizesReaisExcept::NaoRaizesReaisExcept(){ cout << "ERRO: Não foram encontradas raizes para o polinômio!\n";}
+
+//POLINOMIO
 
 /*----------------------------Construtores----------------------------*/
 //Este construtor é o responsável por alocar os recursos para o polinômio mais simples possível, com apenas 1 termo.
@@ -50,7 +62,6 @@ Polinomio::~Polinomio()
 {
     free(poli);
 }
-
 
 /*----------------------------Operadores----------------------------*/
 
@@ -228,7 +239,7 @@ Polinomio Polinomio::operator-(const Polinomio &p) const
 }
 
 //------Subtracao de objeto com um numero
-//O funcionamento deste método é parecedio com o anterior, diferindo apenas no fato de que a subtração é feita de um valor fixo, 
+//O funcionamento deste método é parecedio com o anterior, diferindo apenas no fato de que a subtração é feita de um valor fixo,
 //e não mais com os valores dos termos de um polinômio.
 
 Polinomio Polinomio::operator-(const double &num) const
@@ -380,17 +391,11 @@ Polinomio &Polinomio::operator*=(const double &num)
  */
 Polinomio &Polinomio::operator/=(const int &divisor)
 {
-    try
-    {
-        if (divisor == 0)
-            throw(ArgumentoInvalidoExcept());
-        for (int i = 0; i < termos; i++)
-            poli[i] /= divisor;
-    }
-    catch (ArgumentoInvalidoExcept &e)
-    {
-        cout << "Divisao invalida!\n";
-    }
+
+    if (divisor == 0)
+        throw(ArgumentoInvalidoExcept());
+    for (int i = 0; i < termos; i++)
+        poli[i] /= divisor;
 
     return *this;
 }
@@ -403,18 +408,12 @@ Polinomio &Polinomio::operator/=(const int &divisor)
 Polinomio Polinomio::operator/(const int &divisor) const
 {
     Polinomio resultado(*this);
-    try
-    {
-        if (divisor == 0)
-            throw(ArgumentoInvalidoExcept());
 
-        for (int i = 0; i < termos; i++)
-            resultado.poli[i] /= divisor;
-    }
-    catch (ArgumentoInvalidoExcept &e)
-    {
-        cout << "Divisao invalida!\n";
-    }
+    if (divisor == 0)
+        throw(ArgumentoInvalidoExcept());
+
+    for (int i = 0; i < termos; i++)
+        resultado.poli[i] /= divisor;
 
     return resultado;
 }
@@ -428,28 +427,21 @@ Polinomio Polinomio::operator/(const int &divisor) const
  */
 Polinomio Polinomio::operator/(const Polinomio &p) const
 {
-    try
-    {
-        if (p.termos != 2)
-            throw(ArgumentoInvalidoExcept());
 
-        Polinomio resultado;
-        resultado.termos = this->termos - 1;
-        free(resultado.poli);
-        resultado.poli = (double *)calloc(resultado.termos, sizeof(double));
-        double raiz = -p.poli[0];
-        resultado.poli[resultado.termos - 1] = this->poli[this->termos - 1];
-        for (int i = resultado.termos - 2; i >= 0; i--)
-            resultado.poli[i] = (resultado.poli[i + 1] * raiz) + this->poli[i + 1];
+    if (p.termos != 2)
+        throw(ArgumentoInvalidoExcept());
 
-        return resultado;
-    }
-    catch (ArgumentoInvalidoExcept &e)
-    {
-        cout << "Divisao invalida!\n";
-    }
+    Polinomio resultado;
+    resultado.termos = this->termos - 1;
+    free(resultado.poli);
+    resultado.poli = (double *)calloc(resultado.termos, sizeof(double));
+    double raiz = -p.poli[0];
+    resultado.poli[resultado.termos - 1] = this->poli[this->termos - 1];
+    for (int i = resultado.termos - 2; i >= 0; i--)
+        resultado.poli[i] = (resultado.poli[i + 1] * raiz) + this->poli[i + 1];
+
+    return resultado;
 }
-
 
 /* 
     A seguir o método de divisão incremental por um polinômio
@@ -460,30 +452,23 @@ Polinomio Polinomio::operator/(const Polinomio &p) const
 
 Polinomio &Polinomio::operator/=(const Polinomio &p)
 {
-    try
+    if (p.termos != 2)
+        throw(ArgumentoInvalidoExcept());
+
+    Polinomio resultado;
+    resultado.termos = this->termos - 1;
+    free(resultado.poli);
+    resultado.poli = (double *)calloc(resultado.termos, sizeof(double));
+    double raiz = -p.poli[0];
+    resultado.poli[resultado.termos - 1] = this->poli[this->termos - 1];
+    for (int i = resultado.termos - 2; i >= 0; i--)
     {
-        if (p.termos != 2)
-            throw(ArgumentoInvalidoExcept());
-
-        Polinomio resultado;
-        resultado.termos = this->termos - 1;
-        free(resultado.poli);
-        resultado.poli = (double *)calloc(resultado.termos, sizeof(double));
-        double raiz = -p.poli[0];
-        resultado.poli[resultado.termos - 1] = this->poli[this->termos - 1];
-        for (int i = resultado.termos - 2; i >= 0; i--)
-        {
-            resultado.poli[i] = (resultado.poli[i + 1] * raiz) + this->poli[i + 1];
-        }
-
-        *this = resultado;
-
-        return *this;
+        resultado.poli[i] = (resultado.poli[i + 1] * raiz) + this->poli[i + 1];
     }
-    catch (ArgumentoInvalidoExcept &e)
-    {
-        cout << "Divisao invalida!\n";
-    }
+
+    *this = resultado;
+
+    return *this;
 }
 
 /* 
@@ -494,32 +479,26 @@ Polinomio &Polinomio::operator/=(const Polinomio &p)
  */
 Polinomio Polinomio::operator%(const Polinomio &p) const
 {
-    try
-    {
-        double resto;
-        if (p.termos != 2)
-            throw(ArgumentoInvalidoExcept());
 
-        Polinomio resultado;
-        resultado.termos = this->termos - 1;
-        free(resultado.poli);
-        resultado.poli = (double *)calloc(resultado.termos, sizeof(double));
-        double raiz = -p.poli[0];
-        resultado.poli[resultado.termos - 1] = this->poli[this->termos - 1];
-        for (int i = resultado.termos - 2; i >= 0; i--)
-            resultado.poli[i] = (resultado.poli[i + 1] * raiz) + this->poli[i + 1];
+    double resto;
+    if (p.termos != 2)
+        throw(ArgumentoInvalidoExcept());
 
-        resto = (resultado.poli[0] * raiz) + this->poli[0];
-        resultado.termos = 1;
-        free(resultado.poli);
-        resultado.poli = (double *)malloc(sizeof(double));
-        resultado.poli[0] = resto;
-        return resultado;
-    }
-    catch (ArgumentoInvalidoExcept &e)
-    {
-        cout << "Divisao invalida!\n";
-    }
+    Polinomio resultado;
+    resultado.termos = this->termos - 1;
+    free(resultado.poli);
+    resultado.poli = (double *)calloc(resultado.termos, sizeof(double));
+    double raiz = -p.poli[0];
+    resultado.poli[resultado.termos - 1] = this->poli[this->termos - 1];
+    for (int i = resultado.termos - 2; i >= 0; i--)
+        resultado.poli[i] = (resultado.poli[i + 1] * raiz) + this->poli[i + 1];
+
+    resto = (resultado.poli[0] * raiz) + this->poli[0];
+    resultado.termos = 1;
+    free(resultado.poli);
+    resultado.poli = (double *)malloc(sizeof(double));
+    resultado.poli[0] = resto;
+    return resultado;
 }
 
 /* 
@@ -530,32 +509,26 @@ Polinomio Polinomio::operator%(const Polinomio &p) const
 
 Polinomio &Polinomio::operator%=(const Polinomio &p)
 {
-    try
-    {
-        double resto;
-        if (p.termos != 2)
-            throw(ArgumentoInvalidoExcept());
 
-        Polinomio resultado;
-        resultado.termos = this->termos - 1;
-        free(resultado.poli);
-        resultado.poli = (double *)calloc(resultado.termos, sizeof(double));
-        double raiz = -p.poli[0];
-        resultado.poli[resultado.termos - 1] = this->poli[this->termos - 1];
-        for (int i = resultado.termos - 2; i >= 0; i--)
-            resultado.poli[i] = (resultado.poli[i + 1] * raiz) + this->poli[i + 1];
+    double resto;
+    if (p.termos != 2)
+        throw(ArgumentoInvalidoExcept());
 
-        resto = (resultado.poli[0] * raiz) + this->poli[0];
-        this->termos = 1;
-        free(this->poli);
-        this->poli = (double *)malloc(sizeof(double));
-        this->poli[0] = resto;
-        return *this;
-    }
-    catch (ArgumentoInvalidoExcept &e)
-    {
-        cout << "Divisao invalida!\n";
-    }
+    Polinomio resultado;
+    resultado.termos = this->termos - 1;
+    free(resultado.poli);
+    resultado.poli = (double *)calloc(resultado.termos, sizeof(double));
+    double raiz = -p.poli[0];
+    resultado.poli[resultado.termos - 1] = this->poli[this->termos - 1];
+    for (int i = resultado.termos - 2; i >= 0; i--)
+        resultado.poli[i] = (resultado.poli[i + 1] * raiz) + this->poli[i + 1];
+
+    resto = (resultado.poli[0] * raiz) + this->poli[0];
+    this->termos = 1;
+    free(this->poli);
+    this->poli = (double *)malloc(sizeof(double));
+    this->poli[0] = resto;
+    return *this;
 }
 
 //------Incremento de 1
@@ -611,16 +584,9 @@ double Polinomio ::operator[](int i) const
     if (i == 0)
         return poli[0];
 
-    try
-    {
-        if (i < 0 || i > termos)
-            throw(PosicaoInvalidaExcept());
-        return poli[i - 1];
-    }
-    catch (PosicaoInvalidaExcept &e)
-    {
-        cout << "Posição invalida!\n";
-    }
+    if (i < 0 || i > termos)
+        throw(PosicaoInvalidaExcept());
+    return poli[i - 1];
 }
 
 double &Polinomio ::operator[](int i)
@@ -628,16 +594,9 @@ double &Polinomio ::operator[](int i)
     if (i == 0)
         return poli[0];
 
-    try
-    {
-        if (i < 0 || i > termos)
-            throw(PosicaoInvalidaExcept());
-        return poli[i - 1];
-    }
-    catch (PosicaoInvalidaExcept &e)
-    {
-        cout << "Posição invalida!\n";
-    }
+    if (i < 0 || i > termos)
+        throw(PosicaoInvalidaExcept());
+    return poli[i - 1];
 }
 
 /* 
@@ -730,107 +689,91 @@ double Polinomio::avaliaPoli(int termos, int aux, double a) const
 double *Polinomio ::resolve(int &num) const
 {
     int tam = 0;
-    try
-    {
-        Polinomio p(*this);
 
-        double *bin, *raizes;
-        double x1, x = num;
-        bool temRaiz = false;
-        if (p.termos == 1)
-        {
-            throw NaoHaRaizesExcept();
-        }
-        for (int i = termos; i > 3; i--)
-        {
-            if (p.derivada().avalia(x) == 0)
-            {
-                num = tam;
-                throw ArgumentoInvalidoExcept();
-            }
-            for (int i = 0; i < 10e6; i++)
-            {
-                x1 = x - p.avalia(x) / p.derivada().avalia(x);
-                if (x == x1)
-                {
-                    temRaiz = true;
-                    break;
-                }
-                x = x1;
-            }
-            if (temRaiz)
-            {
-                if (tam == 0)
-                {
-                    raizes = (double *)malloc(sizeof(double));
-                    raizes[0] = x;
-                    tam++;
-                }
-                else
-                {
-                    raizes = (double *)realloc(raizes, (tam + 1) * sizeof(double));
-                    raizes[tam] = x;
-                    tam++;
-                }
-                bin = (double *)malloc(2 * sizeof(double));
-                bin[0] = -x;
-                bin[1] = 1;
-                Polinomio binomio(2, bin);
-                free(bin);
-                p /= binomio;
-            }
-            temRaiz = false;
-        }
-        if (tam == termos - 3)
-        {
-            if (p.delta() >= 0)
-            {
-                if (tam == 0)
-                {
-                    raizes = (double *)calloc(2, sizeof(double));
-                    raizes[0] = (-1 * p.poli[1] + sqrt(p.delta())) / (2 * p.poli[2]);
-                    raizes[1] = (-1 * p.poli[1] - sqrt(p.delta())) / (2 * p.poli[2]);
-                    tam = 2;
-                }
-                else
-                {
-                    raizes = (double *)realloc(raizes, (tam + 2) * sizeof(double));
-                    raizes[tam] = (-1 * p.poli[1] + sqrt(p.delta())) / (2 * p.poli[2]);
-                    raizes[tam + 1] = (-1 * p.poli[1] - sqrt(p.delta())) / (2 * p.poli[2]);
-                    tam += 2;
-                }
-            }
-        }
-        if (termos == 2)
-        {
-            raizes = (double *)malloc(sizeof(double));
-            raizes[0] = -p.poli[0] / p.poli[1];
-            tam++;
-        }
-        if (tam == 0)
-            throw NaoRaizesReaisExcept();
+    Polinomio p(*this);
 
-        num = tam;
-        return raizes;
-    }
-    catch (NaoHaRaizesExcept &e)
+    double *bin, *raizes;
+    double x1, x = num;
+    bool temRaiz = false;
+    if (p.termos == 1)
     {
-        cout << "O polinômio não possui raiz!\n";
-        num = tam;
+        throw NaoHaRaizesExcept();
     }
-    catch (NaoRaizesReaisExcept &e)
+    for (int i = termos; i > 3; i--)
     {
-        cout << "Não foi possível encontrar as raizes no intervalo ou não há raízes reais\n";
-        num = tam;
+        if (p.derivada().avalia(x) == 0)
+        {
+            num = tam;
+            throw ArgumentoInvalidoExcept();
+        }
+        //Número max de vezes que o procedimento vai ser executado por vez
+        for (int i = 0; i < 200; i++)
+        {
+            x1 = x - p.avalia(x) / p.derivada().avalia(x);
+            if (x == x1)
+            {
+                temRaiz = true;
+                break;
+            }
+            x = x1;
+        }
+        if (temRaiz)
+        {
+            if (tam == 0)
+            {
+                raizes = (double *)malloc(sizeof(double));
+                raizes[0] = x;
+                tam++;
+            }
+            else
+            {
+                raizes = (double *)realloc(raizes, (tam + 1) * sizeof(double));
+                raizes[tam] = x;
+                tam++;
+            }
+            bin = (double *)malloc(2 * sizeof(double));
+            bin[0] = -x;
+            bin[1] = 1;
+            Polinomio binomio(2, bin);
+            free(bin);
+            p /= binomio;
+        }
+        temRaiz = false;
     }
-    catch (ArgumentoInvalidoExcept &e)
+    if (tam == termos - 3)
     {
-        cout << "Divisao inválida por ZERO!\n";
+        if (p.delta() >= 0)
+        {
+            if (tam == 0)
+            {
+                raizes = (double *)calloc(2, sizeof(double));
+                raizes[0] = (-1 * p.poli[1] + sqrt(p.delta())) / (2 * p.poli[2]);
+                raizes[1] = (-1 * p.poli[1] - sqrt(p.delta())) / (2 * p.poli[2]);
+                tam = 2;
+            }
+            else
+            {
+                raizes = (double *)realloc(raizes, (tam + 2) * sizeof(double));
+                raizes[tam] = (-1 * p.poli[1] + sqrt(p.delta())) / (2 * p.poli[2]);
+                raizes[tam + 1] = (-1 * p.poli[1] - sqrt(p.delta())) / (2 * p.poli[2]);
+                tam += 2;
+            }
+        }
     }
+    if (termos == 2)
+    {
+        raizes = (double *)malloc(sizeof(double));
+        raizes[0] = -p.poli[0] / p.poli[1];
+        tam++;
+    }
+    if (tam == 0)
+        throw NaoRaizesReaisExcept();
+
+    num = tam;
+    return raizes;
 }
-/* 
-    Realiza o cálculo do delta com os valores do polinômio.
- */
+
+// Realiza o cálculo do delta com os valores do polinômio.
 double Polinomio::delta() const
 {
     return (pow(this->poli[1], 2) - (4 * this->poli[2] * this->poli[0]));

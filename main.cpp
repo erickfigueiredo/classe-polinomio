@@ -59,6 +59,8 @@ Polinomio operator*(const double &num, const Polinomio &p)
 
 int main()
 {
+
+    //O TRATAMENTO DE EXCEÇÃO DEVE SER FEITO NO METODO MAIN!
     Polinomio a;
     int n = -1;
     cin >> a;

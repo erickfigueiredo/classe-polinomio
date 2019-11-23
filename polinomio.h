@@ -7,10 +7,26 @@
 
 using namespace std;
 
-class PosicaoInvalidaExcept{};
-class ArgumentoInvalidoExcept{};
-class NaoHaRaizesExcept{};
-class NaoRaizesReaisExcept{};
+class PosicaoInvalidaExcept
+{
+public:
+	PosicaoInvalidaExcept();
+};
+class ArgumentoInvalidoExcept
+{
+public:
+	ArgumentoInvalidoExcept();
+};
+class NaoHaRaizesExcept
+{
+public:
+	NaoHaRaizesExcept();
+};
+class NaoRaizesReaisExcept
+{
+public:
+	NaoRaizesReaisExcept();
+};
 
 class Polinomio
 {
