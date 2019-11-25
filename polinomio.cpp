@@ -842,8 +842,8 @@ istream &operator>>(istream &is, Polinomio &a)
     a.termos++;
     a.poli = (double *)realloc(a.poli, a.termos * sizeof(double));
 
-    cout << "Informe os coeficientes do polinômio(termo independente, x, x^2, etc): ";
-    for (int i = 0; i < a.termos; i++)
+    cout << "Informe os coeficientes do polinômio(maior para o menor grau): ";
+    for (int i = a.termos-1; i >= 0; i--)
         is >> a.poli[i];
     a.organizaVetor();
 }
