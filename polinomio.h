@@ -7,26 +7,10 @@
 
 using namespace std;
 
-class PosicaoInvalidaExcept
-{
-public:
-	PosicaoInvalidaExcept();
-};
-class ArgumentoInvalidoExcept
-{
-public:
-	ArgumentoInvalidoExcept();
-};
-class NaoHaRaizesExcept
-{
-public:
-	NaoHaRaizesExcept();
-};
-class NaoRaizesReaisExcept
-{
-public:
-	NaoRaizesReaisExcept();
-};
+class PosicaoInvalidaExcept{};
+class ArgumentoInvalidoExcept{};
+class NaoHaRaizesExcept{};
+class NaoRaizesReaisExcept{};
 
 class Polinomio
 {
@@ -140,6 +124,7 @@ public:
 private:
 	double *poli;
 	int termos;
+	void organizaVetor();
 	double avaliaPoli(int, int, double) const;
 	double delta() const;
 };

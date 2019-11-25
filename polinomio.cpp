@@ -9,16 +9,6 @@
 
 //Abaixo está a implementação dos métodos construtores:
 
-//EXCEÇÕES
-
-PosicaoInvalidaExcept::PosicaoInvalidaExcept(){ cout << "ERRO: Posição inválida!\n";}
-
-ArgumentoInvalidoExcept::ArgumentoInvalidoExcept(){ cout << "ERRO: Divisão por ZERO!\n";}
-
-NaoHaRaizesExcept::NaoHaRaizesExcept(){ cout << "ERRO: O polinômio não possui raiz(es)!\n";}
-
-NaoRaizesReaisExcept::NaoRaizesReaisExcept(){ cout << "ERRO: Não foram encontradas raizes para o polinômio!\n";}
-
 //POLINOMIO
 
 /*----------------------------Construtores----------------------------*/
@@ -44,6 +34,8 @@ Polinomio::Polinomio(unsigned int n, double *a)
     poli = (double *)malloc(termos * sizeof(double));
     for (int i = 0; i < termos; i++)
         poli[i] = a[i];
+
+    organizaVetor();
 }
 
 //Este é o construtor de cópia. Ele é responsável por fazer a cópia no momento em que é feita uma atribuição no ato de instanciação de um novo Polinômio.
@@ -122,7 +114,7 @@ Polinomio Polinomio::operator+(const Polinomio &p) const
         for (int i = 0; i < this->termos; i++)
             resultado.poli[i] += this->poli[i];
     }
-
+    resultado.organizaVetor();
     return resultado;
 }
 
@@ -185,7 +177,7 @@ Polinomio &Polinomio::operator+=(const Polinomio &p)
                 this->poli[i] = p.poli[i];
         }
     }
-
+    organizaVetor();
     return *this;
 }
 
@@ -234,7 +226,7 @@ Polinomio Polinomio::operator-(const Polinomio &p) const
         for (int i = 0; i < this->termos; i++)
             resultado.poli[i] -= this->poli[i];
     }
-
+    resultado.organizaVetor();
     return resultado;
 }
 
@@ -293,7 +285,7 @@ Polinomio &Polinomio::operator-=(const Polinomio &p)
                 this->poli[i] = p.poli[i];
         }
     }
-
+    organizaVetor();
     return *this;
 }
 
@@ -325,6 +317,8 @@ Polinomio Polinomio::operator*(const Polinomio &p) const
     for (int i = 0; i < this->termos; i++)
         for (int j = 0; j < p.termos; j++)
             resultado.poli[i + j] += this->poli[i] * p.poli[j];
+
+    resultado.organizaVetor();
     return resultado;
 }
 
@@ -342,6 +336,7 @@ Polinomio Polinomio::operator*(const double &num) const
     for (int i = 0; i < this->termos; i++)
         resultado.poli[i] *= num;
 
+    resultado.organizaVetor();
     return resultado;
 }
 
@@ -368,6 +363,7 @@ Polinomio &Polinomio::operator*=(const Polinomio &p)
     for (int i = 0; i < this->termos; i++)
         this->poli[i] = resultado.poli[i];
 
+    organizaVetor();
     return *this;
 }
 
@@ -379,7 +375,7 @@ Polinomio &Polinomio::operator*=(const double &num)
 {
     for (int i = 0; i < this->termos; i++)
         this->poli[i] *= num;
-
+    organizaVetor();
     return *this;
 }
 
@@ -391,7 +387,6 @@ Polinomio &Polinomio::operator*=(const double &num)
  */
 Polinomio &Polinomio::operator/=(const int &divisor)
 {
-
     if (divisor == 0)
         throw(ArgumentoInvalidoExcept());
     for (int i = 0; i < termos; i++)
@@ -427,7 +422,6 @@ Polinomio Polinomio::operator/(const int &divisor) const
  */
 Polinomio Polinomio::operator/(const Polinomio &p) const
 {
-
     if (p.termos != 2)
         throw(ArgumentoInvalidoExcept());
 
@@ -509,7 +503,6 @@ Polinomio Polinomio::operator%(const Polinomio &p) const
 
 Polinomio &Polinomio::operator%=(const Polinomio &p)
 {
-
     double resto;
     if (p.termos != 2)
         throw(ArgumentoInvalidoExcept());
@@ -629,6 +622,12 @@ bool Polinomio::operator==(const Polinomio &p) const
  */
 Polinomio Polinomio::derivada() const
 {
+    if (this->termos == 1)
+    {
+        Polinomio d;
+        return d;
+    }
+
     Polinomio d;
     d.termos = this->termos - 1;
     free(d.poli);
@@ -646,6 +645,13 @@ Polinomio Polinomio::derivada() const
  */
 Polinomio Polinomio::integral() const
 {
+
+    if (this->termos == 1 && this->poli[0] == 0)
+    {
+        Polinomio dx;
+        return dx;
+    }
+
     Polinomio dx;
     dx.termos = this->termos + 1;
     free(dx.poli);
@@ -693,19 +699,20 @@ double *Polinomio ::resolve(int &num) const
     Polinomio p(*this);
 
     double *bin, *raizes;
-    double x1, x = num;
+    double x1, x = -1;
     bool temRaiz = false;
     if (p.termos == 1)
-    {
         throw NaoHaRaizesExcept();
+
+    while (true)
+    {
+        if (p.derivada().avalia(x) == 0)
+            x++;
+        else
+            break;
     }
     for (int i = termos; i > 3; i--)
     {
-        if (p.derivada().avalia(x) == 0)
-        {
-            num = tam;
-            throw ArgumentoInvalidoExcept();
-        }
         //Número max de vezes que o procedimento vai ser executado por vez
         for (int i = 0; i < 200; i++)
         {
@@ -777,4 +784,75 @@ double *Polinomio ::resolve(int &num) const
 double Polinomio::delta() const
 {
     return (pow(this->poli[1], 2) - (4 * this->poli[2] * this->poli[0]));
+}
+
+void Polinomio::organizaVetor()
+{
+    for (int i = this->termos - 1; i > 0; i--)
+    {
+        if (this->poli[i] != 0)
+            break;
+        this->termos--;
+    }
+    this->poli = (double *)realloc(this->poli, this->termos * sizeof(double));
+}
+
+ostream &operator<<(ostream &os, const Polinomio &escreve)
+{
+    if (escreve.termos != 1)
+    {
+        for (int i = escreve.termos - 1; i >= 0; i--)
+        {
+            if (escreve.poli[i] > 0)
+            {
+                if (i == escreve.termos - 1)
+                    os << escreve.poli[i] << "x^" << i;
+                else if (i == 0)
+                    os << " + " << escreve.poli[i];
+                else if (i == 1)
+                    os << " + " << escreve.poli[i] << "x";
+                else
+                    os << " + " << escreve.poli[i] << "x^" << i;
+            }
+            else if (escreve.poli[i] < 0)
+            {
+                if (i == escreve.termos)
+                    os << "- " << escreve.poli[i] * -1 << "x^" << i;
+                else if (i == 0)
+                    os << " - " << escreve.poli[i] * -1;
+                else if (i == 1)
+                    os << " - " << escreve.poli[i] * -1 << "x";
+                else
+                    os << " - " << escreve.poli[i] * -1 << "x^" << i;
+            }
+        }
+    }
+    else
+        os << escreve.poli[0];
+
+    os << endl;
+
+    return os;
+}
+
+istream &operator>>(istream &is, Polinomio &a)
+{
+    cout << "Informe o grau do polinômio: ";
+    is >> a.termos;
+    a.termos++;
+    a.poli = (double *)realloc(a.poli, a.termos * sizeof(double));
+
+    cout << "Informe os coeficientes do polinômio(termo independente, x, x^2, etc): ";
+    for (int i = 0; i < a.termos; i++)
+        is >> a.poli[i];
+    a.organizaVetor();
+}
+
+Polinomio operator*(const double &num, const Polinomio &p)
+{
+    Polinomio resultado(p);
+    for (int i = 0; i < p.termos; i++)
+        resultado.poli[i] *= num;
+    resultado.organizaVetor();
+    return resultado;
 }
