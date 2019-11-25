@@ -7,7 +7,8 @@ int main()
     cout << "= = = Menu de Seleção = = =\n\n1-Soma              2-Subtração\n3-Multiplicação     4-Divisão\n5-Cálculo           6-Raiz(es)\n7-Avalia            8-Comparação\n9-Limpa polinômio   10-Sair\n\nOpção: ";
 
     cin >> opcao;
-    while(opcao != 10){
+    while (opcao != 10)
+    {
         switch (opcao)
         {
         case 1:
@@ -30,8 +31,7 @@ int main()
             break;
         case 10:
             break;
-            
-        
+
         default:
             cout << "Está opção não existe. Tente novamente.\n";
             break;
@@ -40,7 +40,6 @@ int main()
         cout << "Opção: ";
         cin >> opcao;
     }
-    
 
     return 0;
 }

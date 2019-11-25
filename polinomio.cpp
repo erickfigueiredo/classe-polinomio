@@ -422,47 +422,114 @@ Polinomio Polinomio::operator/(const int &divisor) const
  */
 Polinomio Polinomio::operator/(const Polinomio &p) const
 {
-    if (p.termos != 2)
-        throw(ArgumentoInvalidoExcept());
+    if (p.termos < 2)
+    {
+        return *this / p[0];
+    }
+    if (p.termos > 2)
+    {
+        if (termos < p.termos)
+        {
+            throw(DivisaoInvalidaExcept());
+        }
+        int terma = termos - 1;
+        int terp = p.termos - 1;
+        double *quoc = new double[terma - terp + 1];
+        double *resto = new double[terma + 1];
+        for (int i = 0; i < termos; i++)
+        {
+            resto[i] = poli[i];
+        }
+        //enquanto o grau de a for maior que o de b
+        while (terma >= terp)
+        {
+            quoc[terma - terp] = int(resto[terma]) / int(p[terp]);
+            for (int i = 0; i < p.termos; i++)
+            {
+                resto[terma - terp + i] -= (quoc[terma - terp] * p[i]);
+            }
+            terma--;
+        }
+        Polinomio c(termos - p.termos + 1, quoc);
+        delete[] quoc;
+        delete[] resto;
+        return c;
+    }
+    else
+    {
+        Polinomio resultado;
+        resultado.termos = this->termos - 1;
+        free(resultado.poli);
+        resultado.poli = (double *)calloc(resultado.termos, sizeof(double));
+        double raiz = -p.poli[0];
+        resultado.poli[resultado.termos - 1] = this->poli[this->termos - 1];
+        for (int i = resultado.termos - 2; i >= 0; i--)
+            resultado.poli[i] = (resultado.poli[i + 1] * raiz) + this->poli[i + 1];
 
-    Polinomio resultado;
-    resultado.termos = this->termos - 1;
-    free(resultado.poli);
-    resultado.poli = (double *)calloc(resultado.termos, sizeof(double));
-    double raiz = -p.poli[0];
-    resultado.poli[resultado.termos - 1] = this->poli[this->termos - 1];
-    for (int i = resultado.termos - 2; i >= 0; i--)
-        resultado.poli[i] = (resultado.poli[i + 1] * raiz) + this->poli[i + 1];
-
-    return resultado;
+        return resultado;
+    }
 }
 
 /* 
     A seguir o método de divisão incremental por um polinômio
 
-    Esse método tem o funcionamento semelhante ao anterio, entretanto sua operação é incremental.
+    Esse método tem o funcionamento semelhante ao anterior, entretanto sua operação é incremental.
 
  */
 
 Polinomio &Polinomio::operator/=(const Polinomio &p)
 {
-    if (p.termos != 2)
-        throw(ArgumentoInvalidoExcept());
-
-    Polinomio resultado;
-    resultado.termos = this->termos - 1;
-    free(resultado.poli);
-    resultado.poli = (double *)calloc(resultado.termos, sizeof(double));
-    double raiz = -p.poli[0];
-    resultado.poli[resultado.termos - 1] = this->poli[this->termos - 1];
-    for (int i = resultado.termos - 2; i >= 0; i--)
+    if (p.termos < 2)
     {
-        resultado.poli[i] = (resultado.poli[i + 1] * raiz) + this->poli[i + 1];
+        return *this/=p[0];
     }
+    if (p.termos > 2)
+    {
+        if (termos < p.termos)
+        {
+            throw(DivisaoInvalidaExcept());
+        }
+        int terma = termos - 1;
+        int terp = p.termos - 1;
+        double *quoc = new double[terma - terp + 1]{0};
+        double *resto = new double[terma + 1];
+        for (int i = 0; i < termos; i++)
+        {
+            resto[i] = poli[i];
+        }
+        //enquanto o grau de a for maior que o de b
+        while (terma >= terp)
+        {
+            quoc[terma - terp] = int(resto[terma]) / int(p[terp]);
+            for (int i = 0; i < p.termos; i++)
+            {
+                resto[terma - terp + i] -= (quoc[terma - terp] * p[i]);
+            }
+            terma--;
+        }
+        Polinomio c(termos - p.termos + 1, quoc);
+        delete[] quoc;
+        delete[] resto;
+        *this = c;
+        return *this;
+    }
+    else
+    {
+        Polinomio resultado;
+        resultado.termos = this->termos - 1;
+        free(resultado.poli);
+        resultado.poli = (double *)calloc(resultado.termos, sizeof(double));
+        double raiz = -p.poli[0];
+        resultado.poli[resultado.termos - 1] = this->poli[this->termos - 1];
+        for (int i = resultado.termos - 2; i >= 0; i--)
+        {
+            resultado.poli[i] = (resultado.poli[i + 1] * raiz) + this->poli[i + 1];
+        }
 
-    *this = resultado;
+        *this = resultado;
 
-    return *this;
+        return *this;
+    }
 }
 
 /* 
@@ -473,26 +540,56 @@ Polinomio &Polinomio::operator/=(const Polinomio &p)
  */
 Polinomio Polinomio::operator%(const Polinomio &p) const
 {
-
-    double resto;
-    if (p.termos != 2)
+    if (p.termos < 2)
         throw(ArgumentoInvalidoExcept());
+    if (p.termos > 2)
+    {
+        if (termos < p.termos)
+        {
+            throw(DivisaoInvalidaExcept());
+        }
+        int terma = termos - 1;
+        int terp = p.termos - 1;
+        double *quoc = new double[terma - terp + 1]{0};
+        double *resto = new double[terma + 1];
+        for (int i = 0; i < termos; i++)
+        {
+            resto[i] = poli[i];
+        }
+        //enquanto o grau de a for maior que o de b
+        while (terma >= terp)
+        {
+            quoc[terma - terp] = int(resto[terma]) / int(p[terp]);
+            for (int i = 0; i < p.termos; i++)
+            {
+                resto[terma - terp + i] -= (quoc[terma - terp] * p[i]);
+            }
+            terma--;
+        }
+        Polinomio c(termos, resto);
+        delete[] quoc;
+        delete[] resto;
+        return c;
+    }
+    else
+    {
+        double resto;
+        Polinomio resultado;
+        resultado.termos = this->termos - 1;
+        free(resultado.poli);
+        resultado.poli = (double *)calloc(resultado.termos, sizeof(double));
+        double raiz = -p.poli[0];
+        resultado.poli[resultado.termos - 1] = this->poli[this->termos - 1];
+        for (int i = resultado.termos - 2; i >= 0; i--)
+            resultado.poli[i] = (resultado.poli[i + 1] * raiz) + this->poli[i + 1];
 
-    Polinomio resultado;
-    resultado.termos = this->termos - 1;
-    free(resultado.poli);
-    resultado.poli = (double *)calloc(resultado.termos, sizeof(double));
-    double raiz = -p.poli[0];
-    resultado.poli[resultado.termos - 1] = this->poli[this->termos - 1];
-    for (int i = resultado.termos - 2; i >= 0; i--)
-        resultado.poli[i] = (resultado.poli[i + 1] * raiz) + this->poli[i + 1];
-
-    resto = (resultado.poli[0] * raiz) + this->poli[0];
-    resultado.termos = 1;
-    free(resultado.poli);
-    resultado.poli = (double *)malloc(sizeof(double));
-    resultado.poli[0] = resto;
-    return resultado;
+        resto = (resultado.poli[0] * raiz) + this->poli[0];
+        resultado.termos = 1;
+        free(resultado.poli);
+        resultado.poli = (double *)malloc(sizeof(double));
+        resultado.poli[0] = resto;
+        return resultado;
+    }
 }
 
 /* 
@@ -503,25 +600,57 @@ Polinomio Polinomio::operator%(const Polinomio &p) const
 
 Polinomio &Polinomio::operator%=(const Polinomio &p)
 {
-    double resto;
-    if (p.termos != 2)
+    if (p.termos < 2)
         throw(ArgumentoInvalidoExcept());
+    if (p.termos > 2)
+    {
+        if (termos < p.termos)
+        {
+            throw(DivisaoInvalidaExcept());
+        }
+        int terma = termos - 1;
+        int terp = p.termos - 1;
+        double *quoc = new double[terma - terp + 1]{0};
+        double *resto = new double[terma + 1];
+        for (int i = 0; i < termos; i++)
+        {
+            resto[i] = poli[i];
+        }
+        //enquanto o grau de a for maior que o de b
+        while (terma >= terp)
+        {
+            quoc[terma - terp] = int(resto[terma]) / int(p[terp]);
+            for (int i = 0; i < p.termos; i++)
+            {
+                resto[terma - terp + i] -= (quoc[terma - terp] * p[i]);
+            }
+            terma--;
+        }
+        Polinomio c(termos, resto);
+        delete[] quoc;
+        delete[] resto;
+        *this = c;
+        return *this;
+    }
+    else
+    {
+        double resto;
+        Polinomio resultado;
+        resultado.termos = this->termos - 1;
+        free(resultado.poli);
+        resultado.poli = (double *)calloc(resultado.termos, sizeof(double));
+        double raiz = -p.poli[0];
+        resultado.poli[resultado.termos - 1] = this->poli[this->termos - 1];
+        for (int i = resultado.termos - 2; i >= 0; i--)
+            resultado.poli[i] = (resultado.poli[i + 1] * raiz) + this->poli[i + 1];
 
-    Polinomio resultado;
-    resultado.termos = this->termos - 1;
-    free(resultado.poli);
-    resultado.poli = (double *)calloc(resultado.termos, sizeof(double));
-    double raiz = -p.poli[0];
-    resultado.poli[resultado.termos - 1] = this->poli[this->termos - 1];
-    for (int i = resultado.termos - 2; i >= 0; i--)
-        resultado.poli[i] = (resultado.poli[i + 1] * raiz) + this->poli[i + 1];
-
-    resto = (resultado.poli[0] * raiz) + this->poli[0];
-    this->termos = 1;
-    free(this->poli);
-    this->poli = (double *)malloc(sizeof(double));
-    this->poli[0] = resto;
-    return *this;
+        resto = (resultado.poli[0] * raiz) + this->poli[0];
+        this->termos = 1;
+        free(this->poli);
+        this->poli = (double *)malloc(sizeof(double));
+        this->poli[0] = resto;
+        return *this;
+    }
 }
 
 //------Incremento de 1
@@ -574,22 +703,16 @@ Polinomio Polinomio::operator--()
  */
 double Polinomio ::operator[](int i) const
 {
-    if (i == 0)
-        return poli[0];
-
     if (i < 0 || i > termos)
         throw(PosicaoInvalidaExcept());
-    return poli[i - 1];
+    return poli[i];
 }
 
 double &Polinomio ::operator[](int i)
 {
-    if (i == 0)
-        return poli[0];
-
     if (i < 0 || i > termos)
         throw(PosicaoInvalidaExcept());
-    return poli[i - 1];
+    return poli[i];
 }
 
 /* 
@@ -843,7 +966,7 @@ istream &operator>>(istream &is, Polinomio &a)
     a.poli = (double *)realloc(a.poli, a.termos * sizeof(double));
 
     cout << "Informe os coeficientes do polinômio(maior para o menor grau): ";
-    for (int i = a.termos-1; i >= 0; i--)
+    for (int i = a.termos - 1; i >= 0; i--)
         is >> a.poli[i];
     a.organizaVetor();
 }
