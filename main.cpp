@@ -59,7 +59,7 @@ int main()
 
     cout << "(" << aux << ") *= "
          << "(" << b << ") <--> " << a << "\n\n";
-*/
+
     cout << "=====DIVISÃO=====\n";
 
     cout << "Informe três polinômios, sendo o primeiro deles um binômio e outros dois de sua escolha, para a divisão\n";
@@ -136,5 +136,54 @@ int main()
     {
         cout << "Divisão invalida\n";
     }
+
+
+
+    cout << "=====COMPARAÇÃO DE POLINÔMIOS=====\n";
+    cout << "Informe dois polinômios a serem comparados\n";
+    cin >> a >> b;
+
+    if(a == b)
+        cout << "(" << a << ") == (" << b << ")\n";
+    else
+        cout << "(" << a << ") != (" << b << ")\n";
+    
+    cout << "=====INTEGRAL E DERIVADA DO POLINÔMIO=====\n";
+    cout << "Informe um polinômio para ser integrado e outro para ser derivado\n";
+    cin >> a >> b;
+
+    cout << "Derivada de (" << a << ") = (" << a.derivada() << ")" << endl;
+    cout << "Integral de (" << b << ") = (" << b.integral() << ")" << endl;
+*/
+
+    cout << "=====RAIZES E AVALIAÇÃO EM DADO X=====\n";
+    cout << "Informe um polinômio para ser avaliado em certo X e para ser informado suas raizes\n";
+    cin >> a;
+    cout << "Informe um número para o polinômio ser avaliado: ";
+    cin >> constante;
+
+    try
+    {
+        int num;
+        double *raizes = a.resolve(num);
+        for(int i=0;i<num;i++)
+            cout << "Raiz " << i << ": " << raizes[i] << endl;
+        free(raizes);
+
+    }
+    catch(NaoHaRaizesExcept &ex)
+    {
+        cout << "O polinômio informado não tem raizes.\n";
+    }
+    catch(NaoRaizesReaisExcept &ex)
+    {
+        cout << "O polinômio não tem raiz real.\n";
+    }
+
+    cout << "(" << a << ") avaliado em x = " << constante << " é: " << a.avalia(constante) << endl;  
+
+
+
+
     return 0;
 }

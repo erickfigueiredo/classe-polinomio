@@ -443,7 +443,7 @@ Polinomio Polinomio::operator/(const Polinomio &p) const
         //enquanto o grau de a for maior que o de b
         while (terma >= terp)
         {
-            quoc[terma - terp] = int(resto[terma]) / int(p[terp]);
+            quoc[terma - terp] = resto[terma] / p[terp];
             for (int i = 0; i < p.termos; i++)
             {
                 resto[terma - terp + i] -= (quoc[terma - terp] * p[i]);
@@ -500,7 +500,7 @@ Polinomio &Polinomio::operator/=(const Polinomio &p)
         //enquanto o grau de a for maior que o de b
         while (terma >= terp)
         {
-            quoc[terma - terp] = int(resto[terma]) / int(p[terp]);
+            quoc[terma - terp] = resto[terma] / p[terp];
             for (int i = 0; i < p.termos; i++)
             {
                 resto[terma - terp + i] -= (quoc[terma - terp] * p[i]);
@@ -559,7 +559,7 @@ Polinomio Polinomio::operator%(const Polinomio &p) const
         //enquanto o grau de a for maior que o de b
         while (terma >= terp)
         {
-            quoc[terma - terp] = int(resto[terma]) / int(p[terp]);
+            quoc[terma - terp] = resto[terma] / p[terp];
             for (int i = 0; i < p.termos; i++)
             {
                 resto[terma - terp + i] -= (quoc[terma - terp] * p[i]);
@@ -621,7 +621,7 @@ Polinomio &Polinomio::operator%=(const Polinomio &p)
         //enquanto o grau de a for maior que o de b
         while (terma >= terp)
         {
-            quoc[terma - terp] = int(resto[terma]) / int(p[terp]);
+            quoc[terma - terp] = resto[terma] / p[terp];
             for (int i = 0; i < p.termos; i++)
             {
                 resto[terma - terp + i] -= (quoc[terma - terp] * p[i]);
@@ -732,6 +732,10 @@ bool Polinomio::operator==(const Polinomio &p) const
         for (int i = 0; i < this->termos; i++)
             if (this->poli[i] != p.poli[i])
                 return false;
+    }
+    else
+    {
+        return false;
     }
     return true;
 }
