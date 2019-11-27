@@ -2,16 +2,27 @@
 #define __POLINOMIO
 
 #include <cmath>
+#include <ctime>
 #include <cstdlib>
 #include <iostream>
 
 using namespace std;
 
-class PosicaoInvalidaExcept{};
-class DivisaoInvalidaExcept{};
-class ArgumentoInvalidoExcept{};
-class NaoHaRaizesExcept{};
-class NaoRaizesReaisExcept{};
+class PosicaoInvalidaExcept
+{
+};
+class DivisaoInvalidaExcept
+{
+};
+class ArgumentoInvalidoExcept
+{
+};
+class NaoHaRaizesExcept
+{
+};
+class NaoRaizesReaisExcept
+{
+};
 
 class Polinomio
 {
@@ -121,6 +132,8 @@ public:
 	// sugestão: use o método de Newton para encontrar uma raiz,
 	// use o algoritmo de divisão para simplificar o polinômio...
 	double *resolve(int &) const;
+
+	int getGrau() const;
 
 private:
 	double *poli;

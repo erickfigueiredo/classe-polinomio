@@ -481,7 +481,7 @@ Polinomio &Polinomio::operator/=(const Polinomio &p)
 {
     if (p.termos < 2)
     {
-        return *this/=p[0];
+        return *this /= p[0];
     }
     if (p.termos > 2)
     {
@@ -491,8 +491,8 @@ Polinomio &Polinomio::operator/=(const Polinomio &p)
         }
         int terma = termos - 1;
         int terp = p.termos - 1;
-        double *quoc = new double[terma - terp + 1]{0};
-        double *resto = new double[terma + 1];
+        double *quoc = (double *)calloc(terma - terp + 1, sizeof(double));
+        double *resto = (double *)calloc(terma + 1, sizeof(double));
         for (int i = 0; i < termos; i++)
         {
             resto[i] = poli[i];
@@ -508,8 +508,8 @@ Polinomio &Polinomio::operator/=(const Polinomio &p)
             terma--;
         }
         Polinomio c(termos - p.termos + 1, quoc);
-        delete[] quoc;
-        delete[] resto;
+        free(quoc);
+        free(resto);
         *this = c;
         return *this;
     }
@@ -550,8 +550,8 @@ Polinomio Polinomio::operator%(const Polinomio &p) const
         }
         int terma = termos - 1;
         int terp = p.termos - 1;
-        double *quoc = new double[terma - terp + 1]{0};
-        double *resto = new double[terma + 1];
+        double *quoc = (double *)calloc(terma - terp + 1, sizeof(double));
+        double *resto = (double *)calloc(terma + 1, sizeof(double));
         for (int i = 0; i < termos; i++)
         {
             resto[i] = poli[i];
@@ -566,10 +566,11 @@ Polinomio Polinomio::operator%(const Polinomio &p) const
             }
             terma--;
         }
-        Polinomio c(termos, resto);
-        delete[] quoc;
-        delete[] resto;
-        return c;
+        Polinomio resultado(termos, resto);
+        free(quoc);
+        free(resto);
+        resultado.organizaVetor();
+        return resultado;
     }
     else
     {
@@ -588,6 +589,7 @@ Polinomio Polinomio::operator%(const Polinomio &p) const
         free(resultado.poli);
         resultado.poli = (double *)malloc(sizeof(double));
         resultado.poli[0] = resto;
+        resultado.organizaVetor();
         return resultado;
     }
 }
@@ -610,8 +612,8 @@ Polinomio &Polinomio::operator%=(const Polinomio &p)
         }
         int terma = termos - 1;
         int terp = p.termos - 1;
-        double *quoc = new double[terma - terp + 1]{0};
-        double *resto = new double[terma + 1];
+        double *quoc = (double *)calloc(terma - terp + 1, sizeof(double));
+        double *resto = (double *)calloc(terma + 1, sizeof(double));
         for (int i = 0; i < termos; i++)
         {
             resto[i] = poli[i];
@@ -627,10 +629,9 @@ Polinomio &Polinomio::operator%=(const Polinomio &p)
             terma--;
         }
         Polinomio c(termos, resto);
-        delete[] quoc;
-        delete[] resto;
+        free(quoc);
+        free(resto);
         *this = c;
-        return *this;
     }
     else
     {
@@ -649,8 +650,9 @@ Polinomio &Polinomio::operator%=(const Polinomio &p)
         free(this->poli);
         this->poli = (double *)malloc(sizeof(double));
         this->poli[0] = resto;
-        return *this;
     }
+    organizaVetor();
+    return *this;
 }
 
 //------Incremento de 1
@@ -821,8 +823,9 @@ double *Polinomio ::resolve(int &num) const
 
     Polinomio p(*this);
 
+    srand(time(0));
     double *bin, *raizes;
-    double x1, x = -1;
+    double x1, x = rand() % 100 + 1;
     bool temRaiz = false;
     if (p.termos == 1)
         throw NaoHaRaizesExcept();
@@ -830,7 +833,7 @@ double *Polinomio ::resolve(int &num) const
     while (true)
     {
         if (p.derivada().avalia(x) == 0)
-            x++;
+            x = rand() % 100 + 1;
         else
             break;
     }
@@ -903,6 +906,13 @@ double *Polinomio ::resolve(int &num) const
     return raizes;
 }
 
+// Retorna o Grau do polinômio
+
+int Polinomio::getGrau() const
+{
+    return this->termos - 1;
+}
+
 // Realiza o cálculo do delta com os valores do polinômio.
 double Polinomio::delta() const
 {
@@ -953,8 +963,6 @@ ostream &operator<<(ostream &os, const Polinomio &escreve)
     else
         os << escreve.poli[0];
 
-    os << endl;
-
     return os;
 }
 
@@ -969,6 +977,8 @@ istream &operator>>(istream &is, Polinomio &a)
     for (int i = a.termos - 1; i >= 0; i--)
         is >> a.poli[i];
     a.organizaVetor();
+
+    return is;
 }
 
 Polinomio operator*(const double &num, const Polinomio &p)
