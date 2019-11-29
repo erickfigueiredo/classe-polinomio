@@ -161,7 +161,14 @@ int main()
     cin >> a;
     cout << "Informe um número para o polinômio ser avaliado: ";
     cin >> constante;
+    try{
+        cout << a.avalia(constante) << endl;
 
+    }catch(NaoPodeAvaliar &e){
+        cout << "Constantes não podem receber parâmetros de avaliação!\n";
+    }
+
+    /*
     try
     {
         int num;
@@ -220,7 +227,7 @@ int main()
     {
         cout << "Divisão invalida\n";
     }
-
+    */
     
     return 0;
 }

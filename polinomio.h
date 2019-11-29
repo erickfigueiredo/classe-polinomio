@@ -8,21 +8,12 @@
 
 using namespace std;
 
-class PosicaoInvalidaExcept
-{
-};
-class DivisaoInvalidaExcept
-{
-};
-class ArgumentoInvalidoExcept
-{
-};
-class NaoHaRaizesExcept
-{
-};
-class NaoRaizesReaisExcept
-{
-};
+class PosicaoInvalidaExcept{};
+class DivisaoInvalidaExcept{};
+class ArgumentoInvalidoExcept{};
+class NaoHaRaizesExcept{};
+class NaoRaizesReaisExcept{};
+class NaoPodeAvaliar{};
 
 class Polinomio
 {
