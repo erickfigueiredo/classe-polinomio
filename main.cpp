@@ -5,8 +5,9 @@ int main()
 
     Polinomio a, b, c;
     double constante;
-
-    /* cout << "\n=====SOMAS=====\n";
+    Polinomio aux(b);
+/* 
+    cout << "\n=====SOMAS=====\n";
     cout << "Informe dois polinômios para a soma\n";
     cin >> a >> b;
     cout << "informe a constante a ser usada no operador: ";
@@ -64,7 +65,6 @@ int main()
 
     cout << "Informe três polinômios, sendo o primeiro deles um binômio e outros dois de sua escolha, para a divisão\n";
     cin >> a >> b >> c;
-    Polinomio aux(b);
     aux = a;
     cout << "informe a constante a ser usada no operador: ";
     cin >> constante;
@@ -154,8 +154,8 @@ int main()
 
     cout << "Derivada de (" << a << ") = (" << a.derivada() << ")" << endl;
     cout << "Integral de (" << b << ") = (" << b.integral() << ")" << endl;
-*/
-
+ 
+  */
     cout << "=====RAIZES E AVALIAÇÃO EM DADO X=====\n";
     cout << "Informe um polinômio para ser avaliado em certo X e para ser informado suas raizes\n";
     cin >> a;
@@ -183,7 +183,44 @@ int main()
     cout << "(" << a << ") avaliado em x = " << constante << " é: " << a.avalia(constante) << endl;  
 
 
+    cout << "=====RESTO DA DIVISÃO=====\n";
 
+    cout << "Informe dois polinômios, sendo o primeiro deles obrigatoriamente um binômio:\n";
+    cin >> a >> b;
 
+    aux = a;
+
+    try
+    {
+        cout << "(" << b << ") / (" << a << ") = " << b % a << "\n\n";
+    }
+    catch (DivisaoInvalidaExcept &ex)
+    {
+        cout << "Divisão inválida\n";
+    }
+    catch (ArgumentoInvalidoExcept &ex)
+    {
+        cout << "Divisão invalida\n";
+    }
+
+    try
+    {
+        aux = b;
+        b %= a;
+        cout << "(" << aux << ") /= "
+             << "(" << a << ") <--> " << b << "\n\n";
+
+        b = aux;
+    }
+    catch (DivisaoInvalidaExcept &ex)
+    {
+        cout << "Divisão inválida\n";
+    }
+    catch (ArgumentoInvalidoExcept &ex)
+    {
+        cout << "Divisão invalida\n";
+    }
+
+    
     return 0;
 }

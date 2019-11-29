@@ -801,15 +801,18 @@ Polinomio Polinomio::integral() const
  */
 double Polinomio::avalia(double a) const
 {
-    return avaliaPoli(termos, 0, a);
+    return avaliaPoli(this->termos, 0, a);
 }
 
 //Método de Horner
 double Polinomio::avaliaPoli(int termos, int aux, double a) const
 {
+    if(termos == 1)
+        throw NaoPodeAvaliar();
     //Verificamos se o calculo já se encontra no coeficiente multiplicado pelo segundo maior grau
-    if (aux == termos - 2)
-        return poli[termos - 1] * a + poli[termos - 2];
+    if (aux+1 == termos){
+        return poli[termos - 1];
+    }
 
     //Mais externo para o mais interno
     return avaliaPoli(termos, aux + 1, a) * a + poli[aux];
