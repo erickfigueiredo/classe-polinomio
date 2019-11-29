@@ -6,7 +6,7 @@ int main()
     Polinomio a, b, c;
     double constante;
     Polinomio aux(b);
-/* 
+    
     cout << "\n=====SOMAS=====\n";
     cout << "Informe dois polinômios para a soma\n";
     cin >> a >> b;
@@ -137,8 +137,6 @@ int main()
         cout << "Divisão invalida\n";
     }
 
-
-
     cout << "=====COMPARAÇÃO DE POLINÔMIOS=====\n";
     cout << "Informe dois polinômios a serem comparados\n";
     cin >> a >> b;
@@ -154,8 +152,7 @@ int main()
 
     cout << "Derivada de (" << a << ") = (" << a.derivada() << ")" << endl;
     cout << "Integral de (" << b << ") = (" << b.integral() << ")" << endl;
- 
-  */
+
     cout << "=====RAIZES E AVALIAÇÃO EM DADO X=====\n";
     cout << "Informe um polinômio para ser avaliado em certo X e para ser informado suas raizes\n";
     cin >> a;
@@ -168,7 +165,6 @@ int main()
         cout << "Constantes não podem receber parâmetros de avaliação!\n";
     }
 
-    /*
     try
     {
         int num;
@@ -227,7 +223,7 @@ int main()
     {
         cout << "Divisão invalida\n";
     }
-    */
+
     
     return 0;
 }
