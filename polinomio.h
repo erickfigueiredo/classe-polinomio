@@ -125,11 +125,13 @@ public:
 	double *resolve(int &) const;
 
 	int getGrau() const;
+	//compara dois numeros ponto flutuante e retorna se sao "iguais"
 
 private:
 	double *poli;
 	int termos;
 	void organizaVetor();
+	static bool compara(double,double);
 	double avaliaPoli(int, int, double) const;
 	double delta() const;
 };

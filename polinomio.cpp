@@ -730,7 +730,7 @@ bool Polinomio::operator==(const Polinomio &p) const
     if (p.termos == this->termos)
     {
         for (int i = 0; i < this->termos; i++)
-            if (this->poli[i] != p.poli[i])
+            if (!compara(this->poli[i], p.poli[i]))
                 return false;
     }
     else
@@ -801,11 +801,16 @@ Polinomio Polinomio::integral() const
  */
 double Polinomio::avalia(double a) const
 {
-    if(termos == 1){
+    if (termos == 1)
+    {
         throw NaoPodeAvaliar();
-    }else if(termos == 2){
+    }
+    else if (termos == 2)
+    {
         return (poli[1] * a + poli[0]);
-    }else{
+    }
+    else
+    {
         return avaliaPoli(termos, 0, a);
     }
 }
@@ -853,7 +858,7 @@ double *Polinomio ::resolve(int &num) const
         for (int i = 0; i < 200; i++)
         {
             x1 = x - p.avalia(x) / p.derivada().avalia(x);
-            if (x == x1)
+            if (compara(x, x1))
             {
                 temRaiz = true;
                 break;
@@ -928,7 +933,14 @@ double Polinomio::delta() const
 {
     return (pow(this->poli[1], 2) - (4 * this->poli[2] * this->poli[0]));
 }
-
+//compara dois numeros ponto flutuante e retorna se sao ou nao "iguais"
+bool Polinomio ::compara(double x, double y)
+{
+    double EPSILON = 10e-10;
+    if (fabs(x - y) < EPSILON)
+        return true;
+    return false;
+}
 void Polinomio::organizaVetor()
 {
     for (int i = this->termos - 1; i > 0; i--)

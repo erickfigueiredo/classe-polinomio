@@ -3,7 +3,7 @@
 int main()
 {
 
-    Polinomio a, b, c;
+   Polinomio a, b, c;
     double constante;
     Polinomio aux(b);
     
@@ -223,7 +223,5 @@ int main()
     {
         cout << "Divisão invalida\n";
     }
-
-    
     return 0;
 }
