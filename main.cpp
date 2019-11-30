@@ -3,10 +3,10 @@
 int main()
 {
 
-   Polinomio a, b, c;
+    Polinomio a, b, c;
     double constante;
     Polinomio aux(b);
-    
+
     cout << "\n=====SOMAS=====\n";
     cout << "Informe dois polinômios para a soma\n";
     cin >> a >> b;
@@ -141,11 +141,11 @@ int main()
     cout << "Informe dois polinômios a serem comparados\n";
     cin >> a >> b;
 
-    if(a == b)
+    if (a == b)
         cout << "(" << a << ") == (" << b << ")\n";
     else
         cout << "(" << a << ") != (" << b << ")\n";
-    
+
     cout << "=====INTEGRAL E DERIVADA DO POLINÔMIO=====\n";
     cout << "Informe um polinômio para ser integrado e outro para ser derivado\n";
     cin >> a >> b;
@@ -158,10 +158,12 @@ int main()
     cin >> a;
     cout << "Informe um número para o polinômio ser avaliado: ";
     cin >> constante;
-    try{
+    try
+    {
         cout << a.avalia(constante) << endl;
-
-    }catch(NaoPodeAvaliar &e){
+    }
+    catch (NaoPodeAvaliar &e)
+    {
         cout << "Constantes não podem receber parâmetros de avaliação!\n";
     }
 
@@ -169,22 +171,20 @@ int main()
     {
         int num;
         double *raizes = a.resolve(num);
-        for(int i=0;i<num;i++)
+        for (int i = 0; i < num; i++)
             cout << "Raiz " << i << ": " << raizes[i] << endl;
         free(raizes);
-
     }
-    catch(NaoHaRaizesExcept &ex)
+    catch (NaoHaRaizesExcept &ex)
     {
         cout << "O polinômio informado não tem raizes.\n";
     }
-    catch(NaoRaizesReaisExcept &ex)
+    catch (NaoRaizesReaisExcept &ex)
     {
         cout << "O polinômio não tem raiz real.\n";
     }
 
-    cout << "(" << a << ") avaliado em x = " << constante << " é: " << a.avalia(constante) << endl;  
-
+    cout << "(" << a << ") avaliado em x = " << constante << " é: " << a.avalia(constante) << endl;
 
     cout << "=====RESTO DA DIVISÃO=====\n";
 
