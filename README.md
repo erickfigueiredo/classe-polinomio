@@ -1,2 +1,4 @@
-# trabalho3-programacao2
-Trabalho 3 da disciplina de Programação II - Tema: Classe aplicada em Polinômios
+# Universidade Federal de Viçosa - (UFV)
+### Programação 2 - Trabalho 3
+---
+Trabalho dedicado à pratica de Classes, sobrecarga de operadores e afins.
